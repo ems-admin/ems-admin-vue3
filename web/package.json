@@ -11,11 +11,9 @@
     "@riophae/vue-treeselect": "^0.4.0",
     "axios": "^0.27.2",
     "core-js": "^3.6.5",
-    "element-ui": "^2.15.10",
+    "element-plus": "^2.2.19",
     "vue": "^3.2.41",
-    "vue-router": "^3.6.5",
-    "vuex": "^3.6.2",
-    "vuex-persistedstate": "^4.1.0"
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^5.0.8",
