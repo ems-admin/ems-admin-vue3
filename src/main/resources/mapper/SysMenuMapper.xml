@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ems.system.mapper.SysMenuMapper">
+
+    <!--获取当前用户所有角色的菜单-->
+    <select id="getMenuTree" resultType="com.ems.system.entity.SysMenu">
+        SELECT
+            t1.*
+        FROM
+            sys_menu t1
+                LEFT JOIN sys_role_menu t2 ON t1.id = t2.menu_id
+                LEFT JOIN sys_role t3 ON t2.role_id = t3.id
+        WHERE
+            t3.role_code IN 
+        <foreach collection="roles" item="role" open="(" separator="," close=")">
+            #{role}
+        </foreach>
+    </select>
+
+    <!--根据角色获取菜单列表-->
+    <select id="getMenuUrlByRole" resultType="java.lang.String">
+        SELECT
+        t1.url
+        FROM
+        sys_menu t1
+        LEFT JOIN sys_role_menu t2 ON t1.id = t2.menu_id
+        LEFT JOIN sys_role t3 ON t2.role_id = t3.id
+        WHERE
+        t3.role_code IN
+        <foreach collection="roles" item="role" open="(" separator="," close=")">
+            #{role}
+        </foreach>
+    </select>
+
+    <!--获取当前用户的按钮权限-->
+    <select id="getPermission" resultType="java.lang.String">
+        SELECT
+            t1.permission
+        FROM
+            sys_menu t1
+            LEFT JOIN sys_role_menu t2 ON t1.id = t2.menu_id
+            LEFT JOIN sys_role t3 ON t2.role_id = t3.id
+        WHERE
+                t3.role_code IN
+            <foreach collection="roles" item="role" open="(" separator="," close=")">
+                #{role}
+            </foreach>
+    </select>
+
+</mapper>

@@ -1,0 +1,37 @@
+/*button*/
+
+/*table*/
+.el-table{
+    height: calc(100vh - 210px);
+    max-height: calc(100vh - 210px);
+}
+/*tabs*/
+.el-tabs__item{
+    border-left: none!important;
+}
+/*input*/
+
+/*select*/
+.el-select{
+    width: 100%;
+}
+/*dialog*/
+.el-dialog__body{
+    min-height: 300px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 50px;
+}
+
+.el-dialog__footer{
+    text-align: center;
+}
+
+/*search*/
+.searchDiv{
+    padding-bottom: 15px;
+}
+.searchInput{
+    width: 200px;
+    margin-right: 10px;
+}

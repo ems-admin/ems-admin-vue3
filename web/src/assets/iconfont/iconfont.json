@@ -1,0 +1,72 @@
+{
+  "id": "3689733",
+  "name": "ems-admin",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "12865693",
+      "name": "setting",
+      "font_class": "setting",
+      "unicode": "e6f0",
+      "unicode_decimal": 59120
+    },
+    {
+      "icon_id": "1166053",
+      "name": "日志",
+      "font_class": "rizhi",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "1304947",
+      "name": "菜单",
+      "font_class": "caidan",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "3702619",
+      "name": "角色管理",
+      "font_class": "navicon-jsgl",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "3782922",
+      "name": "角色管理",
+      "font_class": "jiaoseguanli",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "8106227",
+      "name": "home",
+      "font_class": "home",
+      "unicode": "e69b",
+      "unicode_decimal": 59035
+    },
+    {
+      "icon_id": "11372676",
+      "name": "密码",
+      "font_class": "password",
+      "unicode": "e8b2",
+      "unicode_decimal": 59570
+    },
+    {
+      "icon_id": "12704986",
+      "name": "用户名",
+      "font_class": "username",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "12753449",
+      "name": "用户管理",
+      "font_class": "yonghuguanli_huaban",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    }
+  ]
+}

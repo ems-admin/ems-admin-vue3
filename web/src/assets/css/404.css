@@ -1,0 +1,21 @@
+@charset "utf-8";
+.system{
+	    width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 140px;
+}
+.system img{
+	text-align: center;
+	    width: 500px;
+}
+.title{
+	
+}
+.title h2{
+	color: #fff;
+    font-size: 36px;
+    letter-spacing: 4px;
+    text-align: center;
+    line-height: 120px;
+}

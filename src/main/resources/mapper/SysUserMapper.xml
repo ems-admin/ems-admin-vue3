@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ems.system.mapper.SysUserMapper">
+
+  <resultMap id="roles" type="java.lang.String">
+      <result column="roles" property="roles" jdbcType="VARCHAR"></result>
+  </resultMap>
+    <resultMap id="roleIds" type="java.lang.String">
+      <result column="roleIds" property="roleIds" jdbcType="VARCHAR"></result>
+  </resultMap>
+
+  <resultMap id="userResult" type="com.ems.system.entity.dto.UserDto">
+      <result column="id" property="id" jdbcType="BIGINT"></result>
+      <result column="username" property="username" jdbcType="VARCHAR"></result>
+      <result column="password" property="password" jdbcType="VARCHAR"></result>
+      <result column="email" property="email" jdbcType="VARCHAR"></result>
+      <result column="nickName" property="nickName" jdbcType="VARCHAR"></result>
+      <result column="enabled" property="enabled" jdbcType="BOOLEAN"></result>
+      <association property="roles" resultMap="roles"></association>
+      <association property="roleIds" resultMap="roleIds"></association>
+  </resultMap>
+
+    <select id="loadByName" resultType="com.ems.system.entity.dto.UserDto">
+        select * from sys_user
+        <where>
+            <if test="username != null and username != '' ">
+                username = #{username}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryUserTable" resultMap="userResult">
+        SELECT
+            t1.id,
+            t1.email,
+            t1.enabled,
+            t1.nick_name AS nickName,
+            t1.username,
+            GROUP_CONCAT( t3.role_name SEPARATOR ',' ) AS roles,
+            GROUP_CONCAT( t3.id SEPARATOR ',' ) AS roleIds
+        FROM
+            sys_user t1
+                LEFT JOIN sys_role_user t2 ON t1.id = t2.user_id
+                LEFT JOIN sys_role t3 ON t2.role_id = t3.id
+        <where>
+            <if test="blurry != null and blurry != ''">
+                t1.username = #{blurry} OR t1.nick_name = ${blurry}
+            </if>
+        </where>
+        GROUP BY
+            t1.id,
+            t1.email,
+            t1.enabled,
+            t1.username,
+            t1.nick_name
+    </select>
+
+</mapper>
