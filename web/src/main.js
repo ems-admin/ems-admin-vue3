@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import ElementUI from 'element-ui'
+import { createApp } from 'vue'
+import ElementPlus from 'element-plus'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import router from "./router/routers";
@@ -12,13 +12,18 @@ import './utils/message'
 import './router/index'
 import './utils/common'
 
-Vue.config.productionTip = false
+const app = createApp(App)
 
-Vue.use(ElementUI, {size: 'mini'})
-
-new Vue({
-  ElementUI,
-  router,
-  store,
-  render: h => h(App),
-}).$mount('#app')
+app.use(ElementPlus, {size: 'small'})
+app.use(router)
+app.use(store)
+// Vue.config.productionTip = false
+//
+// Vue.use(ElementPlus, {size: 'mini'})
+//
+// new Vue({
+//   ElementPlus,
+//   router,
+//   store,
+//   render: h => h(App),
+// }).$mount('#app')
