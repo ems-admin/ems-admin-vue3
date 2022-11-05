@@ -14,96 +14,91 @@
       </el-form-item>
     </el-form>
     <span slot="footer">
-      <el-button @click="resetForm('userRef')">重置</el-button>
-      <el-button type="primary" :loading="isLoading" @click="submitUser('userRef')">确定</el-button>
+      <el-button @click="resetForm(userRef)">重置</el-button>
+      <el-button type="primary" :loading="isLoading" @click="submitUser">确定</el-button>
     </span>
   </el-dialog>
 </template>
 
-<script>
+<script setup>
 import {editUser} from "../../api/user/sysUser";
 import {getRoleList} from "../../api/role/sysRole";
 import {errorMsg, successMsg} from "../../utils/message";
-import {resetForm} from "../../utils/common";
-export default {
-  name: "editUser",
-  props: {
-    dialogVisible: {
-      type: Boolean,
-      require: true,
-      default: false
-    },
-    userObj: Object
+import {computed, reactive, ref} from "vue";
+
+const props = defineProps({
+  dialogVisible: {
+    type: Boolean,
+    required: true,
+    default: false
   },
-  computed: {
-    visible: {
-      get: function () {
-        return this.dialogVisible
-      },
-      set: function (val) {
-        this.$emit('update:dialogVisible', val)
-      }
+  userObj: Object
+})
+
+const emit = defineEmits(['update:dialogVisible', 'get-list'])
+
+const visible = computed({
+  get: () => props.dialogVisible,
+  set: (val) => emit('update:dialogVisible', val)
+})
+
+const isLoading = ref(false)
+
+const userRef = ref()
+
+const state = reactive({
+  title: '新增',
+  userForm: {
+    id: null,
+    username: '',
+    nickName: '',
+    roleIds: []
+  },
+  rules: {
+    username: [{required: true, message: '用户名不能为空', trigger: 'blur'}],
+    nickName: [{required: true, message: '用户昵称不能为空', trigger: 'blur'}],
+    roleIds: [{required: true, message: '用户角色不能为空', trigger: 'change'}]
+  },
+  roleList: []
+})
+
+const openFun = () => {
+  if (props.userObj.id){
+    getRoleListFun()
+    state.title = '编辑'
+    state.userForm = props.userObj
+    state.userForm.roleIds = state.userForm.roleIds[0].split(',')
+    //  将roleIds中的字符串数字转化为数字
+    state.userForm.roleIds = state.userForm.roleIds.map(Number)
+  }
+}
+//  获取角色列表
+const getRoleListFun = () => {
+  getRoleList({}).then(res => {
+    if (res.success){
+      state.roleList = res.data
+    } else {
+      errorMsg(res.msg)
     }
-  },
-  data(){
-    return{
-      title: '新增',
-      isLoading: false,
-      userForm: {
-        id: null,
-        username: '',
-        nickName: '',
-        roleIds: []
-      },
-      rules: {
-        username: [{required: true, message: '用户名不能为空', trigger: 'blur'}],
-        nickName: [{required: true, message: '用户昵称不能为空', trigger: 'blur'}],
-        roleIds: [{required: true, message: '用户角色不能为空', trigger: 'change'}]
-      },
-      roleList: []
-    }
-  },
-  methods: {
-    resetForm,
-    openFun(){
-      if (this.userObj.id){
-        this.getRoleList()
-        this.title = '编辑'
-        this.userForm = this.userObj
-        this.userForm.roleIds = this.userForm.roleIds[0].split(',')
-        //  将roleIds中的字符串数字转化为数字
-        this.userForm.roleIds = this.userForm.roleIds.map(Number)
-      }
-    },
-    //  获取角色列表
-    getRoleList() {
-      getRoleList({}).then(res => {
+  })
+}
+//  提交
+const submitUser = () => {
+  userRef.value.validate((valid) => {
+    if (valid){
+      isLoading.value = true
+      editUser(this.userForm).then(res => {
         if (res.success){
-          this.roleList = res.data
+          successMsg(res.data)
+          visible.value = false
+          emit('get-list')
         } else {
           errorMsg(res.msg)
         }
-      })
-    },
-    //  提交
-    submitUser(formName){
-      this.$refs[formName].validate((valid) => {
-        if (valid){
-          this.isLoading = true
-          editUser(this.userForm).then(res => {
-            if (res.success){
-              successMsg(res.data)
-              this.visible = false
-              this.$emit('get-list')
-            } else {
-              errorMsg(res.msg)
-            }
-            this.isLoading = false
-          })
-        }
+        isLoading.value = false
       })
     }
-  }
+  })
 }
 </script>
 

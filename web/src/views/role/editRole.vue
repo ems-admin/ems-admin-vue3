@@ -18,74 +18,134 @@
   </el-dialog>
 </template>
 
-<script>
+<script setup>
 import {editRole} from "../../api/role/sysRole";
 import {errorMsg, successMsg} from "../../utils/message";
-import {resetForm} from "../../utils/common";
-export default {
-  name: "editRole",
-  props: {
-    dialogVisible: {
-      type: Boolean,
-      require: true,
-      default: false
-    },
-    roleObj: Object
+import {computed, reactive, ref} from "vue";
+
+const props = defineProps({
+  dialogVisible: {
+    type: Boolean,
+    require: true,
+    default: false
   },
-  computed: {
-    visible: {
-      get: function () {
-        return this.dialogVisible
-      },
-      set: function (val) {
-        this.$emit('update:dialogVisible', val)
-      }
-    }
+  roleObj: Object
+})
+
+const emit = defineEmits(['update:dialogVisible', 'get-list'])
+
+const visible = computed({
+  get: () => props.dialogVisible,
+  set: (val) => emit('update:dialogVisible', val)
+})
+
+const isLoading = ref(false)
+
+const state = reactive({
+  title: '新增',
+  roleForm: {
+    id: null,
+    roleName: '',
+    roleCode: '',
+    description: ''
   },
-  data(){
-    return{
-      title: '新增',
-      isLoading: false,
-      roleForm: {
-        id: null,
-        roleName: '',
-        roleCode: '',
-        description: ''
-      },
-      rules: {
-        roleName: [{required: true, message: '角色名称不能为空', trigger: 'blur'}],
-        roleCode: [{required: true, message: '角色代码不能为空', trigger: 'blur'}]
-      }
-    }
-  },
-  methods: {
-    resetForm,
-    openFun(){
-      if (this.roleObj.id){
-        this.title = '编辑'
-        this.roleForm = this.roleObj
-      }
-    },
-    //  提交
-    submitRole(formName){
-      this.$refs[formName].validate((valid) => {
-        if (valid){
-          this.isLoading = true
-          editRole(this.roleForm).then(res => {
-            if (res.success){
-              successMsg(res.data)
-              this.visible = false
-              this.$emit('get-list')
-            } else {
-              errorMsg(res.msg)
-            }
-            this.isLoading = false
-          })
-        }
-      })
-    }
+  rules: {
+    roleName: [{required: true, message: '角色名称不能为空', trigger: 'blur'}],
+    roleCode: [{required: true, message: '角色代码不能为空', trigger: 'blur'}]
+  }
+})
+
+const roleRef = ref()
+
+const openFun = () => {
+  if (props.roleObj.id){
+    state.title = '编辑'
+    state.roleForm = props.roleObj
   }
 }
+//  提交
+const submitRole = () => {
+  roleRef.value.validate((valid) => {
+    if (valid){
+      isLoading.value = true
+      editRole(this.roleForm).then(res => {
+        if (res.success){
+          successMsg(res.data)
+          visible.value = false
+          emit('get-list')
+        } else {
+          errorMsg(res.msg)
+        }
+        isLoading.value = false
+      })
+    }
+  })
+}
+
+// export default {
+//   name: "editRole",
+//   props: {
+//     dialogVisible: {
+//       type: Boolean,
+//       require: true,
+//       default: false
+//     },
+//     roleObj: Object
+//   },
+//   computed: {
+//     visible: {
+//       get: function () {
+//         return this.dialogVisible
+//       },
+//       set: function (val) {
+//         this.$emit('update:dialogVisible', val)
+//       }
+//     }
+//   },
+//   data(){
+//     return{
+//       title: '新增',
+//       isLoading: false,
+//       roleForm: {
+//         id: null,
+//         roleName: '',
+//         roleCode: '',
+//         description: ''
+//       },
+//       rules: {
+//         roleName: [{required: true, message: '角色名称不能为空', trigger: 'blur'}],
+//         roleCode: [{required: true, message: '角色代码不能为空', trigger: 'blur'}]
+//       }
+//     }
+//   },
+//   methods: {
+//     resetForm,
+//     openFun(){
+//       if (this.roleObj.id){
+//         this.title = '编辑'
+//         this.roleForm = this.roleObj
+//       }
+//     },
+//     //  提交
+//     submitRole(formName){
+//       this.$refs[formName].validate((valid) => {
+//         if (valid){
+//           this.isLoading = true
+//           editRole(this.roleForm).then(res => {
+//             if (res.success){
+//               successMsg(res.data)
+//               this.visible = false
+//               this.$emit('get-list')
+//             } else {
+//               errorMsg(res.msg)
+//             }
+//             this.isLoading = false
+//           })
+//         }
+//       })
+//     }
+//   }
+// }
 </script>
 
 <style scoped>

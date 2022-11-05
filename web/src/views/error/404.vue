@@ -11,17 +11,9 @@
 import '/src/assets/css/404.css'
 import '/src/assets/css/h-ui.reset.css'
 import routers from "../../router/routers";
-export default {
-  name: "404",
-  setup(){
-    function back(){
-      routers.back()
-    }
 
-    return {
-      back
-    }
-  }
+const back = () => {
+  routers.back()
 }
 </script>
 

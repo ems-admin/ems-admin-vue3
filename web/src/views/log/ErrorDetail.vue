@@ -1,31 +1,27 @@
 <template>
-  <el-dialog title="错误详情" :visible.sync="visible">
-    <pre>{{msg}}</pre>
+  <el-dialog title="错误详情" v-model="visible">
+    <pre>{{ msg}}</pre>
   </el-dialog>
 </template>
 
-<script>
-export default {
-  name: "ErrorDetail",
-  props: {
-    dialogVisible: {
-      type: Boolean,
-      require: true,
-      default: false
-    },
-    msg: String
+<script setup>
+import {computed} from "vue";
+
+const props = defineProps({
+  dialogVisible: {
+    type: Boolean,
+    require: true,
+    default: false
   },
-  computed: {
-    visible: {
-      get: function () {
-        return this.dialogVisible
-      },
-      set: function (val) {
-        this.$emit('update:dialogVisible', val)
-      }
-    }
-  }
-}
+  msg: String
+})
+
+const emit = defineEmits(['update:dialogVisible'])
+
+const visible = computed({
+  get: () => props.dialogVisible,
+  set: (val) => emit('update:dialogVisible', val)
+})
 </script>
 
 <style scoped>

@@ -69,9 +69,9 @@ export function loadMenus(next, to){
         if (res.success){
             if (res.data.length > 0){
                 //  将所有菜单缓存到store中
-                store.$patch(res.data)
+                store.routerAction(res.data)
                 //  修改拉取菜单状态
-                store.$patch(true)
+                store.loadMenuAction(true)
                 //  中断当前导航，执行新的导航
                 next({...to, replace: true})
             }

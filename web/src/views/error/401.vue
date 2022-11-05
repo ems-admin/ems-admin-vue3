@@ -10,16 +10,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import routers from "../../router/routers";
 
-export default {
-  name: "401",
-  methods: {
-    back(){
-      routers.back()
-    }
-  }
+const back = () => {
+  routers.back()
 }
 </script>
 

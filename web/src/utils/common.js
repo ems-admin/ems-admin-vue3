@@ -1,4 +1,6 @@
-import store from "../store";
+import {useStore} from "../store";
+
+const store = useStore()
 /**
  * 重置表彰
  * @param ref
@@ -14,6 +16,6 @@ export function resetForm(ref){
  * @returns {boolean}
  */
 export function hasPer(per){
-    const permission = store.state.permission
+    const permission = store.permission
     return permission.indexOf(per) > -1
 }

@@ -11,52 +11,46 @@
   </el-tabs>
 </template>
 
-<script>
-import store from "../../store";
+<script setup>
+import {useStore} from "../../store";
 import routers from "../../router/routers";
-export default {
-  name: "Main",
-  computed: {
-    activeTab: {
-      get: function (){
-        return store.state.activeIndex
-      },
-      set: function (val) {
-        store.dispatch('activeIndexAction', val)
-      }
-    },
-    tabs: {
-      get: function () {
-        return store.state.openTabs
-      }
-    }
+import {computed} from "vue";
+
+const store = useStore()
+
+const activeTab = computed({
+  get: () => {
+    store.activeIndex
   },
-  methods: {
-    //  点击tab
-    clickTab(tab){
-      //  跳转到对应的tab
-      routers.push({name: tab.name})
-    },
-    //  移除tab
-    removeTab(name){
-      //  遍历当前已打开的tabs
-      this.tabs.forEach((tab, index) => {
-        //  如果关闭的是当前激活状态的tab
-        if (tab.name === name){
-          //  则将下一个tab设置为激活状态
-          //  如果当前激活状态为最后一个,则将上一个tab设置为激活状态
-          const nextTab = this.tabs[index + 1] || this.tabs[index - 1]
-          if (nextTab){
-            store.dispatch('activeIndexAction', nextTab.name)
-            //  跳转至当前页面
-            routers.push({path: nextTab.path})
-          }
-        }
-      })
-      //  在已打开tabs的缓存中删除当前删除的tab
-      store.dispatch('removeTabAction', name)
-    }
+  set: (val) => store.activeIndexAction(val)
+})
+
+const tabs = computed(() => {
+  return store.openTabs
+})
+  //  点击tab
+const clickTab = (tab) => {
+    //  跳转到对应的tab
+    routers.push({name: tab.name})
   }
+  //  移除tab
+const removeTab = (name) => {
+    //  遍历当前已打开的tabs
+    this.tabs.forEach((tab, index) => {
+      //  如果关闭的是当前激活状态的tab
+      if (tab.name === name){
+        //  则将下一个tab设置为激活状态
+        //  如果当前激活状态为最后一个,则将上一个tab设置为激活状态
+        const nextTab = this.tabs[index + 1] || this.tabs[index - 1]
+        if (nextTab){
+          store.activeIndexAction(nextTab.name)
+          //  跳转至当前页面
+          routers.push({path: nextTab.path})
+        }
+      }
+    })
+    //  在已打开tabs的缓存中删除当前删除的tab
+    store.removeTabAction(name)
 }
 </script>
 

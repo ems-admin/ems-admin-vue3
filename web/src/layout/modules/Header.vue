@@ -14,56 +14,51 @@
         </el-dropdown>
       </el-col>
     </el-row>
-    <update-password :dialog-visible.sync="dialogVisible" @logout="clearToken"></update-password>
+    <update-password v-model:dialog-visible="dialogVisible" @logout="clearToken"></update-password>
   </div>
 </template>
 
-<script>
+<script setup>
 import updatePassword from "../../views/user/updatePassword";
-import store from "../../store";
+import {useStore} from "../../store";
 import routers from "../../router/routers";
 import {infoMsg} from "../../utils/message";
-export default {
-  name: "Header",
-  components: {
-    updatePassword
-  },
-  data(){
-    return{
-      username: store.state.userInfo.nickName,
-      dialogVisible: false
-    }
-  },
-  methods: {
-    handleCommand(command){
-      if (command === 'logout'){
-        this.logout()
-      } else if (command === 'pwd'){
-        this.dialogVisible = true
-      }
-    },
-    //  退出
-    logout(){
-      this.$confirm('确定退出当前登录？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.clearToken()
-      }).catch(() => {
-        infoMsg('操作已取消')
-      })
-    },
-    //  清空token
-    clearToken(){
-      //  清空token
-      store.dispatch('tokenAction', null)
-      //  清空refreshToken
-      store.dispatch('refreshAction', null)
-      //  跳转到登录页面
-      routers.push({path: '/login'})
-    }
+import {ref} from "vue";
+import {ElMessageBox} from "element-plus";
+
+const store = useStore()
+
+const username = ref(store.userInfo.nickName)
+
+const dialogVisible = ref(false)
+
+const handleCommand = (command) => {
+  if (command === 'logout'){
+    logout()
+  } else if (command === 'pwd'){
+    this.dialogVisible = true
   }
+}
+//  退出
+const logout = () => {
+  ElMessageBox.confirm('确定退出当前登录？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    clearToken()
+  }).catch(() => {
+    infoMsg('操作已取消')
+  })
+}
+//  清空token
+const clearToken = () => {
+  //  清空token
+  store.tokenAction(null)
+  //  清空refreshToken
+  store.refreshAction(null)
+  //  跳转到登录页面
+  routers.push({path: '/login'})
 }
 </script>
 

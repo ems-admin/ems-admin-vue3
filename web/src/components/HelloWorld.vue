@@ -3,13 +3,16 @@
     <h1>{{ msg }}</h1>
   </div>
 </template>
-<script>
-export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
+<script setup>
+import {computed} from "vue";
+
+const props = defineProps({
+  msg: String
+})
+
+const msg = computed(() => {
+  return props.msg
+})
 </script>
 <style scoped>
   .hello{

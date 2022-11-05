@@ -10,63 +10,49 @@
   </el-pagination>
 </template>
 
-<script>
-export default {
-  name: "Pagination",
-  props: {
-    current: {
-      type: Number,
-      default: 1
-    },
-    size: {
-      type: Number,
-      default: 10
-    },
-    total: {
-      type: Number,
-      default: 0
-    }
-  },
-  computed: {
-    currentPage: {
-      get: function (){
-        return this.current
-      },
-      set: function (val){
-        this.$emit('update:current', val)
-      }
-    },
-    pageSize: {
-      get: function (){
-        return this.size
-      },
-      set: function (val) {
-        this.$emit('update:size', val)
-      }
-    },
-    totalSize: {
-      get: function () {
-        return this.total
-      }
-    }
-  },
-  data(){
-    return{
+<script setup>
+import {computed} from "vue";
 
-    }
+const props = defineProps({
+  current: {
+    type: Number,
+    default: 1
   },
-  methods: {
-    //  修改每页条数
-    handleSizeChange(val){
-      this.size = val
-      this.$emit('get-list')
-    },
-    //  修改当前页码
-    handleCurrentChange(val){
-      this.currentPage = val
-      this.$emit('get-list')
-    }
+  size: {
+    type: Number,
+    default: 10
+  },
+  total: {
+    type: Number,
+    default: 0
   }
+})
+
+const emit = defineEmits(['update:current', 'update:size', 'get-list'])
+
+let currentPage = computed({
+  get: () => props.current,
+  set: (val) => emit('update:current', val)
+})
+
+let pageSize = computed({
+  get: () => props.size,
+  set: (val) => emit('update:size', val)
+})
+
+const totalSize = computed(() => {
+  return props.total
+})
+
+//  修改每页条数
+const handleSizeChange = (val) => {
+  pageSize.value = val
+  emit('get-list')
+}
+//  修改当前页码
+const handleCurrentChange = (val) => {
+  currentPage.value = val
+  emit('get-list')
 }
 </script>
 

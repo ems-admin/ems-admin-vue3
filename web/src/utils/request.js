@@ -1,7 +1,9 @@
 import axios from "axios";
 import routers from '../router/routers'
-import store from "../store";
+import {useStore} from "../store";
 import {errorMsg} from "./message";
+
+const store = useStore()
 
 //  创建axios实例
 const instance = axios.create({
@@ -13,9 +15,9 @@ const instance = axios.create({
 instance.interceptors.request.use(
     config => {
         //  如果已登录
-        if (store.state.token){
+        if (store.token){
             //  在请求头添加token
-            config.headers['Authorization'] = 'Bearer ' + store.state.token
+            config.headers['Authorization'] = 'Bearer ' + store.token
         }
         //  统一请求类型json
         config.headers['Content-Type'] = 'application/json'
@@ -47,14 +49,14 @@ instance.interceptors.response.use(
                 //  如果是未授权
                 if (code === 401){
                     //  说明token过期，使用refreshToken对当前token进行刷新
-                    const refresh = store.state.refreshToken
+                    const refresh = store.refreshToken
                     //  如果存在
                     if (refresh){
                         return againRequest(refresh, error)
                     //  否则
                     } else {
                         //  清空token
-                        store.dispatch('tokenAction', null)
+                        store.tokenAction(null)
                         //  并跳转到登录页面，进行重新登录
                         routers.push({
                             path: '/login',
@@ -111,11 +113,11 @@ export function refreshToken(refresh){
     }).then(res => {
         if (res.data.success){
             //  刷新token
-            store.dispatch('tokenAction', res.data.data)
+            store.tokenAction(res.data.data)
         } else {
             errorMsg(res.msg)
             //  清空token
-            store.dispatch('tokenAction', null)
+            store.tokenAction(null)
         }
     })
 }
