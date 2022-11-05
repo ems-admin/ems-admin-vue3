@@ -1,11 +1,11 @@
-import {Message} from "element-ui";
+import {ElMessage} from "element-plus";
 
 /**
  * 成功消息
  * @param msg
  */
 export function successMsg(msg){
-    Message.success(msg)
+    ElMessage.success(msg)
 }
 
 /**
@@ -13,7 +13,7 @@ export function successMsg(msg){
  * @param msg
  */
 export function errorMsg(msg){
-    Message.error(msg)
+    ElMessage.error(msg)
 }
 
 /**
@@ -21,7 +21,7 @@ export function errorMsg(msg){
  * @param msg
  */
 export function warningMsg(msg){
-    Message.warning(msg)
+    ElMessage.warning(msg)
 }
 
 /**
@@ -29,5 +29,5 @@ export function warningMsg(msg){
  * @param msg
  */
 export function infoMsg(msg){
-    Message.info(msg)
+    ElMessage.info(msg)
 }

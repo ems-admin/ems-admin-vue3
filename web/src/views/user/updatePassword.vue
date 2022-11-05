@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="修改密码" :visible.sync="visible" :close-on-click-modal="false">
+  <el-dialog title="修改密码" v-model="visible" :close-on-click-modal="false">
     <el-form :model="passwordForm" :rules="rules" ref="passwordRef" label-width="120px">
       <el-form-item label="原密码" prop="password">
         <el-input type="password" v-model="passwordForm.password" placeholder="请输入原密码" clearable></el-input>
@@ -12,94 +12,86 @@
       </el-form-item>
     </el-form>
     <span slot="footer">
-      <el-button @click="resetForm('passwordRef')">重置</el-button>
-      <el-button type="primary" @click="submitPassword('passwordRef')">确定</el-button>
+      <el-button @click="resetForm(passwordRef)">重置</el-button>
+      <el-button type="primary" @click="submitPassword">确定</el-button>
     </span>
   </el-dialog>
 </template>
 
-<script>
+<script setup>
 import {updatePwd} from "../../api/user/sysUser";
 import {errorMsg, successMsg} from "../../utils/message";
-import {resetForm} from "../../utils/common";
-export default {
-  name: "editUser",
-  props: {
-    dialogVisible: {
-      type: Boolean,
-      require: true,
-      default: false
+import {computed, ref, reactive} from "vue";
+const props = defineProps({
+  dialogVisible: {
+    type: Boolean,
+    require: true,
+    default: false
+  }
+})
+
+const emit = defineEmits(['update:dialog-visible'])
+
+const visible = computed({
+  get: () => props.dialogVisible,
+  set: (value) => emit('update:dialog-visible', value)
+})
+
+const passwordForm = reactive({
+  password: '',
+  newPassword: '',
+  confirmPassword: '',
+})
+
+const passwordRef = ref()
+
+const validateNew = (rule, value, callback) => {
+  if (value === '') {
+    callback(new Error('请输入密码'));
+  } else {
+    if (passwordForm.confirmPassword !== '') {
+      passwordRef.value.validateField('confirmPassword');
     }
-  },
-  computed: {
-    visible: {
-      get: function () {
-        return this.dialogVisible
-      },
-      set: function (val) {
-        this.$emit('update:dialogVisible', val)
-      }
-    }
-  },
-  data(){
-    const validateNew = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'));
-      } else {
-        if (this.passwordForm.confirmPassword !== '') {
-          this.$refs.passwordRef.validateField('confirmPassword');
-        }
-        callback();
-      }
-    };
-    const validateConfirm = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入确认密码'));
-      } else if (value !== this.passwordForm.newPassword) {
-        callback(new Error('两次输入密码不一致!'));
-      } else {
-        callback();
-      }
-    };
-    return{
-      isLoading: false,
-      passwordForm: {
-        password: '',
-        newPassword: '',
-        confirmPassword: '',
-      },
-      rules: {
-        password: [{required: true, message: '原密码不能为空', trigger: 'blur'}],
-        newPassword: [
-            {required: true, message: '新密码不能为空', trigger: 'blur'},
-            {validator: validateNew, trigger: 'blur'}
-        ],
-        confirmPassword: [
-            {required: true, message: '确认密码不能为空', trigger: 'blur'},
-            {validator: validateConfirm, trigger: 'blur'}
-        ]
-      }
-    }
-  },
-  methods: {
-    resetForm,
-    //  提交
-    submitPassword(formName){
-      this.$refs[formName].validate((valid) => {
-        if (valid){
-          updatePwd(this.passwordForm).then(res => {
-            if (res.success){
-              successMsg(res.data)
-              this.visible = false
-              this.$emit('logout')
-            } else {
-              errorMsg(res.msg)
-            }
-          })
+    callback();
+  }
+}
+
+const validateConfirm = (rule, value, callback) => {
+  if (value === '') {
+    callback(new Error('请输入确认密码'));
+  } else if (value !== passwordForm.newPassword) {
+    callback(new Error('两次输入密码不一致!'));
+  } else {
+    callback();
+  }
+}
+
+const rules = reactive( {
+  password: [{required: true, message: '原密码不能为空', trigger: 'blur'}],
+  newPassword: [
+      {required: true, message: '新密码不能为空', trigger: 'blur'},
+      {validator: validateNew, trigger: 'blur'}
+  ],
+  confirmPassword: [
+      {required: true, message: '确认密码不能为空', trigger: 'blur'},
+      {validator: validateConfirm, trigger: 'blur'}
+  ]
+})
+//  提交
+const submitPassword = () => {
+  passwordRef.value.validate((valid) => {
+    if (valid){
+      updatePwd(passwordForm).then(res => {
+        if (res.success){
+          successMsg(res.data)
+          visible.value = false
+          emit('logout')
+        } else {
+          errorMsg(res.msg)
         }
       })
     }
-  }
+  })
 }
 </script>
 

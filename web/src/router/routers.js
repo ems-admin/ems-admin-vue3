@@ -1,14 +1,6 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import {createRouter, createWebHashHistory} from "vue-router";
 import Layout from '../layout/index'
 import Home from '../views/Home'
-
-const originalPush = VueRouter.prototype.push
-
-VueRouter.prototype.push = function push(location){
-    return originalPush.call(this, location).catch(err => err)
-}
-Vue.use(VueRouter)
 
 export const routerMap = [
     {
@@ -41,8 +33,8 @@ export const routerMap = [
 ]
 
 //  创建路由
-const routers = new VueRouter({
-    mode: 'hash',
+const routers = createRouter({
+    mode: createWebHashHistory(),
     routes: routerMap
 })
 

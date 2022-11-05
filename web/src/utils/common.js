@@ -1,11 +1,11 @@
 import store from "../store";
 /**
  * 重置表彰
- * @param formName
+ * @param ref
  */
 
-export function resetForm(formName){
-    this.$refs[formName].resetFields()
+export function resetForm(ref){
+    ref.value.resetFields()
 }
 
 /**
