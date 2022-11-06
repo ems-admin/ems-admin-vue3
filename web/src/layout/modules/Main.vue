@@ -1,5 +1,5 @@
 <template>
-  <el-tabs v-model="activeTab" type="card" @tab-click="clickTab" @tab-remove="removeTab">
+  <el-tabs v-model="activeIndex" type="card" @tab-click="clickTab" @tab-remove="removeTab">
     <el-tab-pane
         v-for="(item, index) in tabs"
         :closable="item.isClose"
@@ -12,36 +12,33 @@
 </template>
 
 <script setup>
+import {storeToRefs} from 'pinia'
 import {useStore} from "../../store";
 import routers from "../../router/routers";
 import {computed} from "vue";
 
 const store = useStore()
 
-const activeTab = computed({
-  get: () => {
-    store.activeIndex
-  },
-  set: (val) => store.activeIndexAction(val)
-})
+const { activeIndex } = storeToRefs(store)
 
 const tabs = computed(() => {
   return store.openTabs
 })
   //  点击tab
 const clickTab = (tab) => {
+  store.activeIndex = tab.name
     //  跳转到对应的tab
     routers.push({name: tab.name})
   }
   //  移除tab
 const removeTab = (name) => {
     //  遍历当前已打开的tabs
-    this.tabs.forEach((tab, index) => {
+    tabs.value.forEach((tab, index) => {
       //  如果关闭的是当前激活状态的tab
       if (tab.name === name){
         //  则将下一个tab设置为激活状态
         //  如果当前激活状态为最后一个,则将上一个tab设置为激活状态
-        const nextTab = this.tabs[index + 1] || this.tabs[index - 1]
+        const nextTab = tabs.value[index + 1] || tabs.value[index - 1]
         if (nextTab){
           store.activeIndexAction(nextTab.name)
           //  跳转至当前页面
@@ -90,5 +87,9 @@ const removeTab = (name) => {
   height: 8px;
   border-radius: 50%;
   margin-right: 4px;
+}
+
+::v-deep .el-tab-pane{
+  display: block!important;
 }
 </style>

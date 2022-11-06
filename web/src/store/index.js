@@ -1,6 +1,7 @@
 import {defineStore} from "pinia";
 
 export const useStore = defineStore('ems', {
+    persist: true,
     state: () => {
         return {
             token: null,

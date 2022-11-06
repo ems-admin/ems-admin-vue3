@@ -10,25 +10,27 @@
       <el-table-column label="昵称" prop="nickName"></el-table-column>
       <el-table-column label="角色" prop="roles"></el-table-column>
       <el-table-column label="状态" prop="enabled" width="100">
-        <template slot-scope="scope">
-          <el-tag v-if="scope.row.enabled" type="success" size="mini">启用</el-tag>
-          <el-tag v-else type="danger" size="mini">停用</el-tag>
+        <template #default="scope">
+          <el-tag v-if="scope.row.enabled" type="success">启用</el-tag>
+          <el-tag v-else type="danger">停用</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作" prop="option" width="220px" align="center">
-        <template v-if="scope.row.username !== state.username" slot-scope="scope">
-          <el-button v-if="hasPer('user:enabled')" :type="buttonType(scope.row.enabled)"
-                     @click="enabledUserFun(JSON.parse(JSON.stringify(scope.row)))">
-            {{scope.row.enabled ? '停用' : '启用'}}</el-button>
-          <el-button v-if="hasPer('user:edit')" type="primary" @click="editUserFun(JSON.parse(JSON.stringify(scope.row)))">编辑</el-button>
-          <el-button v-if="hasPer('user:del')" type="danger" @click="deleteUser(scope.row.id, scope.row.username)">删除</el-button>
+        <template #default="scope">
+          <span v-if="scope.row.username !== state.username">
+            <el-button v-if="hasPer('user:enabled')" :type="buttonType(scope.row.enabled)"
+                       @click="enabledUserFun(JSON.parse(JSON.stringify(scope.row)))">
+              {{scope.row.enabled ? '停用' : '启用'}}</el-button>
+            <el-button v-if="hasPer('user:edit')" type="primary" @click="editUserFun(JSON.parse(JSON.stringify(scope.row)))">编辑</el-button>
+            <el-button v-if="hasPer('user:del')" type="danger" @click="deleteUser(scope.row.id, scope.row.username)">删除</el-button>
+          </span>
         </template>
       </el-table-column>
     </el-table>
     <!--分页-->
-    <pagination :current.sync="current" :size.sync="size" :total="total" @get-list="getUserList"></pagination>
+    <pagination v-model:current="state.current" v-model:size="state.size" v-model:total="state.total" @get-list="getUserList"></pagination>
     <!--编辑-->
-    <edit-user :dialog-visible.sync="dialogVisible" :user-obj="userObj" @get-list="getUserList"></edit-user>
+    <edit-user v-model:dialog-visible="dialogVisible" :user-obj="state.userObj" @get-list="getUserList"></edit-user>
   </div>
 </template>
 

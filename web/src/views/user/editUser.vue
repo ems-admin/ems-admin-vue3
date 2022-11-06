@@ -1,15 +1,15 @@
 <template>
-  <el-dialog :title="title" :visible.sync="visible" :close-on-click-modal="false" @opened="openFun">
-    <el-form :model="userForm" :rules="rules" ref="userRef" label-width="120px">
+  <el-dialog :title="state.title" v-model="visible" :close-on-click-modal="false" @opened="openFun">
+    <el-form :model="state.userForm" :rules="state.rules" ref="userRef" label-width="120px">
       <el-form-item label="用户名" prop="username">
-        <el-input v-model="userForm.username" placeholder="请输入用户名"></el-input>
+        <el-input v-model="state.userForm.username" placeholder="请输入用户名"></el-input>
       </el-form-item>
       <el-form-item label="昵称" prop="nickName">
-        <el-input v-model="userForm.nickName" placeholder="请输入昵称"></el-input>
+        <el-input v-model="state.userForm.nickName" placeholder="请输入昵称"></el-input>
       </el-form-item>
       <el-form-item label="用户角色" prop="roleIds">
-        <el-select v-model="userForm.roleIds" multiple placeholder="请选择角色">
-          <el-option v-for="(item, index) in roleList" :key="index" :label="item.roleName" :value="parseInt(item.id)"></el-option>
+        <el-select v-model="state.userForm.roleIds" multiple placeholder="请选择角色">
+          <el-option v-for="(item, index) in state.roleList" :key="index" :label="item.roleName" :value="parseInt(item.id)"></el-option>
         </el-select>
       </el-form-item>
     </el-form>

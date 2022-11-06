@@ -6,11 +6,10 @@ import {errorMsg} from "../utils/message";
 //  定义路由白名单
 const whiteList = ['/login', '/401', '/404']
 
-const store = useStore()
-
 //  创建路由守卫
 router.beforeEach((to, from, next) => {
     console.log('请求路由：' + to.path)
+    const store = useStore()
     //  如果已登录
     if (store.token){
         //  在用户手动切换到根路由时，强制返回
@@ -24,7 +23,7 @@ router.beforeEach((to, from, next) => {
             next({path: '/Layout'})
         } else {
             //  如果没有拉取过用户菜单列表
-            if (!store.state.isLoadMenu){
+            if (!store.isLoadMenu){
                 loadMenus(next, to)
             //  如果已经拉取过
             } else {
@@ -65,6 +64,7 @@ router.beforeEach((to, from, next) => {
  * @param to
  */
 export function loadMenus(next, to){
+    const store = useStore()
     queryAllMenu().then(res => {
         if (res.success){
             if (res.data.length > 0){
@@ -94,6 +94,7 @@ export function hashRoute(to){
  * 将拉取的路由添加到系统路由中
  */
 export function addRoute(){
+    const store = useStore()
     let routers = store.routers
     if (routers && routers.length > 0){
         console.info(routers)

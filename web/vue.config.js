@@ -1,15 +1,20 @@
-const http = '127.0.0.1:8415'
+const http = 'localhost:8415'
+const { defineConfig } = require('@vue/cli-service')
 
-module.exports = {
+module.exports = defineConfig({
     //  输出目录
     outputDir: '../src/main/resources/dist',
     //  静态资源使用相对路径
     publicPath: './',
     //  代理配置
     devServer: {
+        host: '0.0.0.0',
+        port: '8080',
         proxy: {
-            '/**': {
+            '/*': {
                 target: `http://${http}`,
+                changeOrigin: true,
+                ws: false,
                 timeout: 60 * 1000
             }
         }
@@ -24,5 +29,7 @@ module.exports = {
             args[0].env = process.env.NODE_ENV;
             return args;
         })
-    }
-}
+    },
+    transpileDependencies: true,
+    lintOnSave: false
+})

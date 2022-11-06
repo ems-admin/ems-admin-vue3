@@ -3,10 +3,10 @@
     <el-form class="form" :model="loginForm" :rules="rules" ref="loginRef">
       <h1>用 户 登 录</h1>
       <el-form-item prop="username">
-        <el-input type="text" v-model="loginForm.username" prefix-icon="iconfont icon-username" placeholder="请输入用户名"></el-input>
+        <el-input type="text" v-model="loginForm.username" placeholder="请输入用户名"></el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input type="password" v-model="loginForm.password" prefix-icon="iconfont icon-password" placeholder="请输入密码"></el-input>
+        <el-input type="password" v-model="loginForm.password" placeholder="请输入密码"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button class="button" type="primary" :loading="isLoading" @click="submitLogin(loginRef)">登  录</el-button>

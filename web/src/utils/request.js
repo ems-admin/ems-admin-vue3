@@ -3,17 +3,16 @@ import routers from '../router/routers'
 import {useStore} from "../store";
 import {errorMsg} from "./message";
 
-const store = useStore()
-
 //  创建axios实例
 const instance = axios.create({
-    baseURL: process.env.NODE_ENV === 'production' ? process.env.VUE_APP_BASE_URL : 'http://localhost:8415',
+    baseURL: 'http://localhost:8415',
     timeout: 60000   //  请求超时时间（毫秒）
 })
 
 //  request拦截器
 instance.interceptors.request.use(
     config => {
+        const store = useStore()
         //  如果已登录
         if (store.token){
             //  在请求头添加token
@@ -35,6 +34,7 @@ instance.interceptors.response.use(
         return response.data
     },
     error => {
+        const store = useStore()
         if (!error.response){
             errorMsg(error.message)
         } else {
@@ -90,9 +90,10 @@ instance.interceptors.response.use(
  * @returns {Promise<void>}
  */
 async function againRequest(refresh, error){
+    const store = useStore()
     await refreshToken(refresh)
     const config = error.response.config
-    config.headers['Authorization'] = 'Bearer ' + store.state.token
+    config.headers['Authorization'] = 'Bearer ' + store.token
     const res = await axios.request(config)
     return res.data
 }
@@ -103,6 +104,7 @@ async function againRequest(refresh, error){
  * @param config
  */
 export function refreshToken(refresh){
+    const store = useStore()
     //  刷新token
     return axios({
         url: process.env.NODE_ENV === 'production' ? process.env.VUE_APP_BASE_URL : 'http://localhost:8415' + '/auth/refresh',

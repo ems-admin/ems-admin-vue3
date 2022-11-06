@@ -19,6 +19,12 @@ export const routerMap = [
         component: () => import('../views/error/404')
     },
     {
+        path: "/:pathMatch(.*)*",
+        name: "notFound",
+        component: () => import('../views/error/404'),  // 引入 组件
+    },
+
+    {
         path: '/Layout',
         name: 'Layout',
         component: Layout,
@@ -34,7 +40,7 @@ export const routerMap = [
 
 //  创建路由
 const routers = createRouter({
-    mode: createWebHashHistory(),
+    history: createWebHashHistory(),
     routes: routerMap
 })
 
