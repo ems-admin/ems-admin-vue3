@@ -46,11 +46,11 @@ const submitLogin = (loginRef) => {
       login(loginForm).then(res => {
         if (res.success){
           //  缓存token
-          store.tokenAction(res.data.token)
+          store.token = res.data.token
           //  缓存刷新token
-          store.refreshAction(res.data.refreshToken)
+          store.refreshToken = res.data.refreshToken
           //  缓存当前登录用户信息
-          store.userInfoAction(res.data.userDto)
+          store.userInfo = res.data.userDto
           //  切换到首页
           routers.push({path: '/Layout'})
         } else {

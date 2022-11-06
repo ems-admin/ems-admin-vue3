@@ -5,7 +5,7 @@ import {useStore} from "../store";
  */
 
 export function resetForm(ref){
-    ref.value.resetFields()
+    ref.resetFields()
 }
 
 /**

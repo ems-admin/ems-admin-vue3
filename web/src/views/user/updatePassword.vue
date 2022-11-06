@@ -11,10 +11,12 @@
         <el-input type="password" v-model="passwordForm.confirmPassword" placeholder="请输入确认密码" clearable></el-input>
       </el-form-item>
     </el-form>
-    <span slot="footer">
+    <template #footer>
+      <span>
       <el-button @click="resetForm(passwordRef)">重置</el-button>
       <el-button type="primary" @click="submitPassword">确定</el-button>
     </span>
+    </template>
   </el-dialog>
 </template>
 
@@ -22,6 +24,7 @@
 import {updatePwd} from "../../api/user/sysUser";
 import {errorMsg, successMsg} from "../../utils/message";
 import {computed, ref, reactive} from "vue";
+import {resetForm} from "../../utils/common";
 const props = defineProps({
   dialogVisible: {
     type: Boolean,

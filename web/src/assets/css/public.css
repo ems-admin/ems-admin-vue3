@@ -17,8 +17,8 @@
 }
 /*dialog*/
 .el-dialog__body{
-    min-height: 300px;
-    max-height: 500px;
+    height: 350px;
+    max-height: 350px;
     overflow-y: auto;
     padding-right: 50px;
 }

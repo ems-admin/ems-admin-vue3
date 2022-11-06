@@ -7,10 +7,12 @@
       <el-col :span="12">
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">{{username}}<i class="el-icon-arrow-down el-icon--right"></i></span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="pwd">修改密码</el-dropdown-item>
-            <el-dropdown-item command="logout">退出</el-dropdown-item>
-          </el-dropdown-menu>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="pwd">修改密码</el-dropdown-item>
+              <el-dropdown-item command="logout">退出</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
         </el-dropdown>
       </el-col>
     </el-row>
@@ -36,7 +38,7 @@ const handleCommand = (command) => {
   if (command === 'logout'){
     logout()
   } else if (command === 'pwd'){
-    this.dialogVisible = true
+    dialogVisible.value = true
   }
 }
 //  退出
@@ -54,9 +56,9 @@ const logout = () => {
 //  清空token
 const clearToken = () => {
   //  清空token
-  store.tokenAction(null)
+  store.token = null
   //  清空refreshToken
-  store.refreshAction(null)
+  store.refreshToken = null
   //  跳转到登录页面
   routers.push({path: '/login'})
 }
