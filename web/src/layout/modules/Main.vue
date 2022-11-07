@@ -14,8 +14,11 @@
 <script setup>
 import {storeToRefs} from 'pinia'
 import {useStore} from "../../store";
-import routers from "../../router/routers";
+import {useRouter} from 'vue-router'
+// import routers from "../../router/routers";
 import {computed} from "vue";
+
+const router = useRouter()
 
 const store = useStore()
 
@@ -26,10 +29,10 @@ const tabs = computed(() => {
 })
   //  点击tab
 const clickTab = (tab) => {
-  store.activeIndex = tab.name
-    //  跳转到对应的tab
-    routers.push({name: tab.name})
-  }
+  store.activeIndex = tab.paneName
+  //  跳转到对应的tab
+  router.push({name: tab.paneName})
+}
   //  移除tab
 const removeTab = (name) => {
     //  遍历当前已打开的tabs
@@ -40,9 +43,9 @@ const removeTab = (name) => {
         //  如果当前激活状态为最后一个,则将上一个tab设置为激活状态
         const nextTab = tabs.value[index + 1] || tabs.value[index - 1]
         if (nextTab){
-          store.activeIndexAction(nextTab.name)
+          store.activeIndex = nextTab.name
           //  跳转至当前页面
-          routers.push({path: nextTab.path})
+          router.push({path: nextTab.path})
         }
       }
     })
@@ -87,9 +90,5 @@ const removeTab = (name) => {
   height: 8px;
   border-radius: 50%;
   margin-right: 4px;
-}
-
-::v-deep .el-tab-pane{
-  display: block!important;
 }
 </style>

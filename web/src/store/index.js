@@ -38,14 +38,6 @@ export const useStore = defineStore('ems', {
         tokenAction(payload){
             this.token = payload
         },
-        //  缓存用户刷新token
-        refreshAction(payload){
-            this.refreshToken = payload
-        },
-        //  缓存当前登录用户信息
-        userInfoAction(payload){
-            this.userInfo = payload
-        },
         //  当前激活菜单
         activeIndexAction(payload){
             this.activeIndex = payload

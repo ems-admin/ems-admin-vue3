@@ -6,7 +6,7 @@
 <!--      <span v-if="!isCollapse">EMS-ADMIN</span>-->
     </div>
     <!--默认将首页放在第一位-->
-    <el-menu-item route="/home" index="首页"><i class="iconfont icon-home"></i>首页</el-menu-item>
+    <el-menu-item route="/home" index="首页" @click="openTab('首页', '/home')"><i class="iconfont icon-home"></i>首页</el-menu-item>
     <el-sub-menu v-for="(menu, menuIndex) in menuList" :key="menuIndex" :index="menu.name">
       <template #title>
         <i :class="menu.icon"></i>
@@ -64,10 +64,11 @@ onMounted(() => {
 })
 //  打开页面
 const openTab = (name, path) => {
+  console.log(name, path)
   //  将当前打开的菜单添加到已打开列表中
   store.addTabAction({name: name, path: path})
   //  将激活菜单改成选中的菜单
-  store.activeIndexAction(name)
+  store.activeIndex = name
 }
 //  修改collapse状态
 const changeCollapse = () => {
