@@ -13,10 +13,12 @@
         </el-select>
       </el-form-item>
     </el-form>
-    <span slot="footer">
+    <template #footer>
+      <span>
       <el-button @click="resetForm(userRef)">重置</el-button>
       <el-button type="primary" :loading="isLoading" @click="submitUser">确定</el-button>
     </span>
+    </template>
   </el-dialog>
 </template>
 
@@ -24,6 +26,7 @@
 import {editUser} from "../../api/user/sysUser";
 import {getRoleList} from "../../api/role/sysRole";
 import {errorMsg, successMsg} from "../../utils/message";
+import {resetForm} from "../../utils/common";
 import {computed, reactive, ref} from "vue";
 
 const props = defineProps({
@@ -63,8 +66,11 @@ const state = reactive({
 })
 
 const openFun = () => {
+  resetForm(userRef.value)
+  state.title = '新增'
+  getRoleListFun()
+  isLoading.value = false
   if (props.userObj.id){
-    getRoleListFun()
     state.title = '编辑'
     state.userForm = props.userObj
     state.userForm.roleIds = state.userForm.roleIds[0].split(',')
@@ -87,7 +93,7 @@ const submitUser = () => {
   userRef.value.validate((valid) => {
     if (valid){
       isLoading.value = true
-      editUser(this.userForm).then(res => {
+      editUser(state.userForm).then(res => {
         if (res.success){
           successMsg(res.data)
           visible.value = false

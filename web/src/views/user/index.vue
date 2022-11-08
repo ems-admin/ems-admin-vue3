@@ -28,9 +28,9 @@
       </el-table-column>
     </el-table>
     <!--分页-->
-    <pagination v-model:current="state.current" v-model:size="state.size" v-model:total="state.total" @get-list="getUserList"></pagination>
+    <pagination v-model:current="state.current" v-model:size="state.size" v-model:total="state.total" @get-list="getUserListFun"></pagination>
     <!--编辑-->
-    <edit-user v-model:dialog-visible="dialogVisible" :user-obj="state.userObj" @get-list="getUserList"></edit-user>
+    <edit-user v-model:dialog-visible="dialogVisible" :user-obj="state.userObj" @get-list="getUserListFun"></edit-user>
   </div>
 </template>
 
@@ -77,7 +77,7 @@ const editUserFun = (row) => {
 }
 
 const deleteUser = (id, username) => {
-  this.$confirm('确定删除用户【' + username + '】？', '提示', {
+  ElMessageBox.confirm('确定删除用户【' + username + '】？', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'

@@ -68,7 +68,7 @@ const submitRole = () => {
   roleRef.value.validate((valid) => {
     if (valid){
       isLoading.value = true
-      editRole(this.roleForm).then(res => {
+      editRole(state.roleForm).then(res => {
         if (res.success){
           successMsg(res.data)
           visible.value = false
