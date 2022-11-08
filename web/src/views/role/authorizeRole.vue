@@ -1,18 +1,20 @@
 <template>
-  <el-dialog title="授权" :visible.sync="visible" :close-on-click-modal="false" @opened="openFun">
+  <el-dialog title="授权" v-model="visible" draggable :close-on-click-modal="false" @opened="openFun">
     <el-tree
-        :data="treeData"
+        :data="state.treeData"
         ref="tree"
         show-checkbox
         node-key="id"
-        :props="defaultProps"
+        :props="state.defaultProps"
         default-expand-all
-        :default-checked-keys="authorizeData">
+        :default-checked-keys="state.authorizeData">
     </el-tree>
-    <span slot="footer">
-      <el-button @click="visible.value = false">取消</el-button>
+    <template #footer>
+      <span>
+      <el-button @click="visible = false">取消</el-button>
       <el-button type="primary" :loading="isLoading" @click="submitAuthorize">授权</el-button>
     </span>
+    </template>
   </el-dialog>
 </template>
 
@@ -52,9 +54,9 @@ const state = reactive({
 })
 
 const openFun = () => {
+  isLoading.value = false
   state.authorizeData = []
   getMenusByRoleIdFun()
-  // this.getMenuTree()
 }
 //  获取当前角色的所有菜单树
 const getMenuTree = () => {
@@ -87,7 +89,7 @@ const getMenusByRoleIdFun = () => {
 //  提交
 const submitAuthorize = () => {
   isLoading.value = true
-  authorizeRole({roleId: state.roleId, menuIds: tree.value.getCheckedKeys()}).then(res => {
+  authorizeRole({roleId: props.roleId, menuIds: tree.value.getCheckedKeys()}).then(res => {
     if (res.success){
       successMsg(res.data)
       visible.value = false

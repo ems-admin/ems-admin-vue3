@@ -66,6 +66,9 @@ public class SysRoleMenuServiceImpl implements SysRoleMenuService {
             Long roleId = roleMenuDto.getRoleId();
             //  获取当前角色信息
             SysRole role = roleMapper.selectById(roleId);
+            if (role == null){
+                throw new BadRequestException("当前角色不存在");
+            }
             if (CommonConstants.ROLE_ADMIN.equals(role.getRoleCode())){
                 throw new BadRequestException("超级管理员拥有所有权限，无需授权");
             }

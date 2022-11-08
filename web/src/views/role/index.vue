@@ -19,9 +19,9 @@
       </el-table-column>
     </el-table>
     <!--编辑-->
-    <edit-role v-model:dialog-visible="dialogVisible" :role-obj="roleObj" @get-list="getRoleListFun"></edit-role>
+    <edit-role v-model:dialog-visible="dialogVisible" :role-obj="state.roleObj" @get-list="getRoleListFun"></edit-role>
     <!--授权-->
-    <authorize-role v-model:auth-visible="authVisible" :role-id="roleId"></authorize-role>
+    <authorize-role v-model:auth-visible="authVisible" :role-id="state.roleId"></authorize-role>
   </div>
 </template>
 
