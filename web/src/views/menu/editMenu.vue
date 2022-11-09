@@ -1,10 +1,10 @@
 <template>
-  <el-dialog :title="state.title" v-model="visible" :close-on-click-modal="false" @opened="openFun">
+  <el-dialog :title="state.title" v-model="visible" draggable :close-on-click-modal="false" @opened="openFun">
     <el-form :model="menuForm" :rules="rules" ref="menuRef" label-width="120px">
       <el-row>
         <el-col :span="12">
           <el-form-item label="上级目录" prop="parentId">
-            <treeselect v-model="menuForm.parentId" :options="options" :clearable="false" :normalizer="state.normalizer"></treeselect>
+            <el-tree-select key-node="value" v-model="menuForm.parentId" :data="options" check-strictly :render-after-expand="false"></el-tree-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -21,17 +21,19 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="菜单名称" prop="name">
-        <el-input v-model="menuForm.name" placeholder="请输入菜单名称"></el-input>
+        <el-input v-model="menuForm.name" placeholder="请输入菜单名称" clearable></el-input>
       </el-form-item>
       <el-form-item label="选择图标" prop="icon">
-            <el-popover placement="bottom" trigger="click">
+            <el-popover placement="bottom" trigger="click" width="300px;">
+              <template #reference>
+                <el-input v-model="menuForm.icon" prefix-icon="请选择菜单图标" clearable></el-input>
+              </template>
               <el-row class="icon-row">
-                <el-col v-for="(item, index) in state.iconList" :key="index" :span="8">
+                <el-col v-for="(item, index) in iconList" :key="index" :span="8">
                   <i :class="item.font_class" style="font-size: 40px;" @click="checkIcon(item.font_class)"></i>
                   <i style="display: flow-root;">{{item.name}}</i>
                 </el-col>
               </el-row>
-              <el-input v-model="menuForm.icon" prefix-icon="请选择菜单图标" slot="reference"></el-input>
             </el-popover>
       </el-form-item>
       <el-form-item v-if="menuForm.type === '2' || menuForm.type === '3'" label="访问路径" prop="path">
@@ -44,17 +46,17 @@
         <el-input v-model="menuForm.permission" placeholder="请输入权限"></el-input>
       </el-form-item>
     </el-form>
-    <span slot="footer">
-      <el-button @click="resetForm(menuRef)">重置</el-button>
-      <el-button type="primary" :loading="isLoading" @click="submitMenu">确定</el-button>
+    <template #footer>
+      <span>
+        <el-button @click="resetForm(menuRef)">重置</el-button>
+        <el-button type="primary" :loading="isLoading" @click="submitMenu">确定</el-button>
     </span>
+    </template>
   </el-dialog>
 </template>
 
 <script setup>
-import {getMenuTree, editMenu} from "../../api/menu/sysMenu";
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import {getMenuTreeSelect, editMenu} from "../../api/menu/sysMenu";
 import {errorMsg, successMsg} from "../../utils/message";
 import {resetForm} from "../../utils/common";
 import {computed, reactive, ref} from "vue";
@@ -75,7 +77,7 @@ const visible = computed({
   set: (val) => emit('update:dialogVisible', val)
 })
 
-const menuForm = reactive({
+const menuForm = ref({
   id: null,
   parentId: 0,
   name: '',
@@ -97,40 +99,39 @@ const rules = reactive({
 
 const state = {
   title: '新增',
-  options: [
-    {
-      id: 0,
-      name: '顶级目录',
-      children: []
-    }
-  ],
-  normalizer(node) {
-    return{
-      id: node.id,
-      label: node.name,
-      children: node.children
-    }
-  },
   iconList: []
 }
+
+const iconList = ref([])
+
+const options = ref([
+  {
+    value: 0,
+    label: '顶级目录',
+    children: []
+  }
+])
 
 const menuRef = ref()
 
 const isLoading = ref(false)
 
 const openFun = () => {
-  if (props.menuObj.id){
-    this.title = '编辑'
-    this.menuForm = props.menuObj
-  }
+  state.title = '新增'
+  resetForm(menuRef.value)
+  isLoading.value = false
   getMenuTreeFun()
+  if (props.menuObj.id){
+    state.title = '编辑'
+    menuForm.value = props.menuObj
+  }
   getIconList()
 }
 //  获取下拉菜单树
 const getMenuTreeFun = () => {
-  getMenuTree().then(res => {
+  getMenuTreeSelect().then(res => {
     if (res.success){
-      this.options[0].children = res.data
+      options.value[0].children = res.data
     } else {
       errorMsg(res.msg)
     }
@@ -158,29 +159,18 @@ const submitMenu = () => {
 const getIconList = () => {
   const iconJson = require('../../assets/iconfont/iconfont.json')
   const iconClassList = JSON.parse(JSON.stringify(iconJson.glyphs))
-  this.iconList = iconClassList.map(item => {
+  iconList.value = iconClassList.map(item => {
     item.font_class = 'iconfont icon-' + item.font_class
     return item
   })
-  console.info(state.iconList)
 }
 
 const checkIcon = (value) => {
-  menuForm.icon = value
+  menuForm.value.icon = value
 }
 </script>
 
 <style scoped>
- ::v-deep .vue-treeselect__control{
-  height: 28px;
-}
- ::v-deep .el-form-item__content{
-   line-height: 28px;
-   font-size: 12px;
- }
- ::v-deep .el-popover{
-   width: 50% !important;
- }
  .icon-row{
    text-align: center;
    height: 300px;

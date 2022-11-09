@@ -267,6 +267,31 @@ public class SysMenuServiceImpl implements SysMenuService {
     }
 
     /**
+     * @Description: 获取菜单下拉树
+     * @Param: []
+     * @return: com.alibaba.fastjson.JSONArray
+     * @Author: starao
+     * @Date: 2022/11/9
+     */
+    @Override
+    public JSONArray getMenuTreeSelect() {
+        JSONArray menuArray = getMenuTree(SecurityUtil.getCurrentRoles());
+        JSONArray children = new JSONArray();
+        if (!CollectionUtils.isEmpty(menuArray)){
+            for (int i = 0; i < menuArray.size(); i++) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("value", menuArray.getJSONObject(i).getLongValue("id"));
+                jsonObject.put("label", menuArray.getJSONObject(i).getString("name"));
+                if (menuArray.getJSONObject(i).getJSONArray("children") != null){
+                    jsonObject.put("children", getTreeChildren(menuArray.getJSONObject(i).getJSONArray("children")));
+                }
+                children.add(jsonObject);
+            }
+        }
+        return children;
+    }
+
+    /**
     * @Description: 校验菜单是否已绑定角色
     * @Param: [menuId]
     * @return: void
@@ -308,5 +333,26 @@ public class SysMenuServiceImpl implements SysMenuService {
             e.printStackTrace();
             throw new BadRequestException(e.getMsg());
         }
+    }
+
+    /**
+    * @Description: 获取下拉树子集
+    * @Param: [jsonArray]
+    * @return: com.alibaba.fastjson.JSONArray
+    * @Author: starao
+    * @Date: 2022/11/9
+    */
+    private JSONArray getTreeChildren(JSONArray jsonArray){
+        JSONArray children = new JSONArray();
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("value", jsonArray.getJSONObject(i).getLongValue("id"));
+            jsonObject.put("label", jsonArray.getJSONObject(i).getString("name"));
+            if (jsonArray.getJSONObject(i).getJSONArray("children") != null){
+                jsonObject.put("children", jsonArray.getJSONObject(i).getJSONArray("children"));
+            }
+            children.add(jsonObject);
+        }
+        return children;
     }
 }

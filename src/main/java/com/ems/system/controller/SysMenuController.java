@@ -135,4 +135,15 @@ public class SysMenuController extends ResultUtil {
             return fail(false, e.getMsg());
         }
     }
+
+    @Log(value = "获取菜单下拉树")
+    @GetMapping("/menu/select")
+    public ResponseEntity<Object> getMenuTreeSelect(){
+        try {
+            return success(true, menuService.getMenuTreeSelect());
+        } catch (BadRequestException e) {
+            e.printStackTrace();
+            return fail(false, e.getMsg());
+        }
+    }
 }

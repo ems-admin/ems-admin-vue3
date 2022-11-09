@@ -61,10 +61,21 @@ export function delMenu(params){
     })
 }
 
-
+/**
+ * 获取按钮权限列表
+ * @returns {AxiosPromise}
+ */
 export function getPermission(){
     return request({
         url: '/sys/menu/permission',
+        method: 'get'
+    })
+}
+
+
+export function getMenuTreeSelect(){
+    return request({
+        url: '/sys/menu/select',
         method: 'get'
     })
 }

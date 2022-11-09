@@ -1,6 +1,7 @@
 package com.ems.system.service;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.ems.system.entity.SysMenu;
 
 import java.util.List;
@@ -75,4 +76,13 @@ public interface SysMenuService {
     * @Date: 2022/10/6
     */
     List<String> getPermission();
+
+    /**
+    * @Description: 获取菜单下拉树
+    * @Param: []
+    * @return: com.alibaba.fastjson.JSONArray
+    * @Author: starao
+    * @Date: 2022/11/9
+    */
+    JSONArray getMenuTreeSelect();
 }
