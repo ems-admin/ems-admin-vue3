@@ -141,6 +141,9 @@ public class SysMenuServiceImpl implements SysMenuService {
     @Override
     public void editMenu(SysMenu sysMenu) {
         try {
+            if (sysMenu.getParentId() == null){
+                throw new BadRequestException("缺少上级目录，编辑失败");
+            }
             if (sysMenu.getId() != null){
                 menuMapper.updateById(sysMenu);
             } else {

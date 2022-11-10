@@ -51,4 +51,19 @@ public class StringUtil extends StringUtils {
         }
         return ip;
     }
+
+    /**
+    * @Description: 判断编辑类型
+    * @Param: [id]
+    * @return: java.lang.String
+    * @Author: starao
+    * @Date: 2022/11/10
+    */
+    public static String getEditType(Long id){
+        if (id != null){
+            return "编辑成功";
+        } else {
+            return "添加成功";
+        }
+    }
 }

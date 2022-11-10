@@ -142,7 +142,7 @@ const submitMenu = () => {
   menuRef.value.validate((valid) => {
     if (valid){
       isLoading.value = true
-      editMenu(menuForm).then(res => {
+      editMenu(menuForm.value).then(res => {
         if (res.success){
           successMsg(res.data)
           visible.value = false

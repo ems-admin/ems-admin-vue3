@@ -3,6 +3,7 @@ package com.ems.system.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.ems.common.exception.BadRequestException;
 import com.ems.common.utils.ResultUtil;
+import com.ems.common.utils.StringUtil;
 import com.ems.logs.annotation.Log;
 import com.ems.system.entity.SysUser;
 import com.ems.system.entity.dto.QueryDto;
@@ -54,8 +55,9 @@ public class SysUserController extends ResultUtil {
     @PostMapping("/user/edit")
     public ResponseEntity<Object> editUser(@RequestBody UserDto userDto){
         try {
+            String str = StringUtil.getEditType(userDto.getId());
             userService.editUser(userDto);
-            return success(true, "编辑成功");
+            return success(true, str);
         } catch (BadRequestException e) {
             e.printStackTrace();
             return fail(false, e.getMsg());

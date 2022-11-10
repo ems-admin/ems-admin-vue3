@@ -3,6 +3,7 @@ package com.ems.system.controller;
 import com.ems.common.exception.BadRequestException;
 import com.ems.common.utils.ResultUtil;
 import com.ems.common.utils.SecurityUtil;
+import com.ems.common.utils.StringUtil;
 import com.ems.logs.annotation.Log;
 import com.ems.system.entity.SysMenu;
 import com.ems.system.service.SysMenuService;
@@ -109,8 +110,9 @@ public class SysMenuController extends ResultUtil {
     @PostMapping("/menu/edit")
     public ResponseEntity<Object> editMenu(@RequestBody SysMenu sysMenu){
         try {
+            String str = StringUtil.getEditType(sysMenu.getId());
             menuService.editMenu(sysMenu);
-            return success(true, sysMenu.getId() == null ? "添加成功" : "修改成功");
+            return success(true, str);
         } catch (BadRequestException e) {
             e.printStackTrace();
             return fail(false, e.getMsg());

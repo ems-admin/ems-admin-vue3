@@ -1,6 +1,5 @@
 <template>
 <div class="system">
-  <img src="../../assets/image/404.png"/>
   <div class="title">
     <h2>页面走丢了...</h2>
     <button type="button" class="layui-btn layui-btn-lg layui-btn-normal" @click="back">返回</button>
@@ -8,13 +7,12 @@
 </div>
 </template>
 <script>
-import '/src/assets/css/404.css'
-import '/src/assets/css/h-ui.reset.css'
 import routers from "../../router/routers";
 
 const back = () => {
   routers.back()
 }
+
 </script>
 
 <style scoped>
