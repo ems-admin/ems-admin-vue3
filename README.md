@@ -3,7 +3,7 @@
 #### 介绍
 ems-admin(easy manage system)是一套极简的后台管理系统，
 基于SpringBoot2.5.2、SpringSecurity、Mybatis-plus3.4.3.4、Mysql8.0、
-JWT、Vue3.0、Layui2.6.8（或element-plus）开发，
+JWT、Vue3.0、element-plus开发，vuex也换成了pinia
 只提供最基础的登录、权限管理功能与日志功能，所有的业务功能，
 都可以根据自己的需要在此之上构建。
 
@@ -61,15 +61,12 @@ ems-admin-boot是ems-admin后台的SpringBoot版本，
 - 用户的访问权限，通过用户-角色-权限的方式进行绑定
 
 
+- 权限管理的细粒度到按钮级别（仅限前端）
+
+
 #### 后续计划
 
-- 提供验证码功能
-
-
-- 提供token自动续租功能
-
-
-- 优化权限的细粒度，目前是通过请求路径进行了校验，还没有精确到按钮
+- 暂无
 
 
 #### 已知问题
