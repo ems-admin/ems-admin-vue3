@@ -11,7 +11,7 @@ import lombok.Setter;
  **/
 @Getter
 @Setter
-public class VerifyCodeConstants {
+public class CaptchaConstants {
 
     /**
      * 验证码配置(算数)

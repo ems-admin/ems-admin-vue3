@@ -1,7 +1,7 @@
 package com.ems.system.controller;
 
 import com.ems.common.constant.SecurityConstants;
-import com.ems.common.constant.VerifyCodeConstants;
+import com.ems.common.constant.CaptchaConstants;
 import com.ems.common.exception.BadRequestException;
 import com.ems.common.utils.JwtUtil;
 import com.ems.common.utils.ResultUtil;
@@ -157,7 +157,7 @@ public class LoginController extends ResultUtil {
     public ResponseEntity<Object> getVerifyCode(){
         try {
             // 获取运算的结果
-            Captcha captcha = new ArithmeticCaptcha(VerifyCodeConstants.width, VerifyCodeConstants.height);
+            Captcha captcha = new ArithmeticCaptcha(CaptchaConstants.width, CaptchaConstants.height);
             String uuid = UUID.randomUUID().toString().replace("-", "");
             //当验证码类型为 arithmetic时且长度 >= 2 时，captcha.text()的结果有几率为浮点型
             String captchaValue = captcha.text();
