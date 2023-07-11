@@ -30,4 +30,8 @@ public class UserDto {
     private Boolean enabled;
 
     private List<String> roleIds;
+
+    private String uuid;
+
+    private String code;
 }
