@@ -43,8 +43,9 @@
                 LEFT JOIN sys_role_user t2 ON t1.id = t2.user_id
                 LEFT JOIN sys_role t3 ON t2.role_id = t3.id
         <where>
+            t3.role_code != 'ROLE_ADMIN'
             <if test="blurry != null and blurry != ''">
-                t1.username = #{blurry} OR t1.nick_name = ${blurry}
+                AND t1.username = #{blurry} OR t1.nick_name = ${blurry}
             </if>
         </where>
         GROUP BY

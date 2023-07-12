@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
+    "browserslist": "^4.21.9",
+    "caniuse-lite": "^1.0.30001515",
     "core-js": "^3.6.5",
     "element-plus": "^2.3.7",
     "eslint": "^8.26.0",

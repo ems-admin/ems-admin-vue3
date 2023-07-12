@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ems.common.constant.CommonConstants;
+import com.ems.common.constant.SecurityConstants;
 import com.ems.common.exception.BadRequestException;
 import com.ems.system.entity.SysRole;
 import com.ems.system.entity.SysRoleUser;
@@ -59,6 +61,7 @@ public class SysRoleServiceImpl implements SysRoleService {
                 wrapper.or();
                 wrapper.like(SysRole::getDescription, blurry);
             }
+            wrapper.ne(SysRole::getRoleCode, CommonConstants.ROLE_ADMIN);
             return roleMapper.selectList(wrapper);
         } catch (BadRequestException e) {
             e.printStackTrace();
