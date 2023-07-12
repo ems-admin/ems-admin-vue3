@@ -5,7 +5,7 @@ import {errorMsg} from "./message";
 
 //  创建axios实例
 const instance = axios.create({
-    baseURL: 'http://localhost:8415',
+    baseURL: process.env.NODE_ENV === 'production' ? process.env.VUE_APP_BASE_URL : '/',
     timeout: 60000   //  请求超时时间（毫秒）
 })
 

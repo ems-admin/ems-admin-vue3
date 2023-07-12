@@ -7,7 +7,7 @@ import request from "../../utils/request";
  */
 export function getUserList(params){
     return request({
-        url: '/sys/user/table',
+        url: '/api/sys/user/table',
         method: 'get',
         params
     })
@@ -20,7 +20,7 @@ export function getUserList(params){
  */
 export function editUser(data){
     return request({
-        url: '/sys/user/edit',
+        url: '/api/sys/user/edit',
         method: 'post',
         data
     })
@@ -33,7 +33,7 @@ export function editUser(data){
  */
 export function delUser(params){
     return request({
-        url: '/sys/user/del',
+        url: '/api/sys/user/del',
         method: 'delete',
         params
     })
@@ -46,7 +46,7 @@ export function delUser(params){
  */
 export function enabledUser(data){
     return request({
-        url: '/sys/user/enabled',
+        url: '/api/sys/user/enabled',
         method: 'put',
         data
     })
@@ -59,7 +59,7 @@ export function enabledUser(data){
  */
 export function updatePwd(data){
     return request({
-        url: '/sys/user/password',
+        url: '/api/sys/user/password',
         method: 'put',
         data
     })

@@ -9,12 +9,14 @@ module.exports = defineConfig({
     //  代理配置
     devServer: {
         host: '0.0.0.0',
-        port: '8080',
+        port: '3000',
         proxy: {
-            '/*': {
+            '/api': {
                 target: `http://${http}`,
                 changeOrigin: true,
-                ws: false,
+                pathRewrite: {
+                    '^/api': ''
+                },
                 timeout: 60 * 1000
             }
         }

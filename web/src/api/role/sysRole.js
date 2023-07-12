@@ -7,7 +7,7 @@ import request from "../../utils/request";
  */
 export function getRoleList(params){
     return request({
-        url: '/sys/role/table',
+        url: '/api/sys/role/table',
         method: 'get',
         params
     })
@@ -20,7 +20,7 @@ export function getRoleList(params){
  */
 export function editRole(data){
     return request({
-        url: '/sys/role/edit',
+        url: '/api/sys/role/edit',
         method: 'post',
         data
     })
@@ -33,7 +33,7 @@ export function editRole(data){
  */
 export function authorizeRole(data){
     return request({
-        url: '/sys/role/menu/edit',
+        url: '/api/sys/role/menu/edit',
         method: 'post',
         data
     })
@@ -46,7 +46,7 @@ export function authorizeRole(data){
  */
 export function delRole(params){
     return request({
-        url: '/sys/role/del',
+        url: '/api/sys/role/del',
         method: 'delete',
         params
     })
@@ -59,7 +59,7 @@ export function delRole(params){
  */
 export function getMenusByRoleId(params){
     return request({
-        url: '/sys/role/menu/list',
+        url: '/api/sys/role/menu/list',
         method: 'get',
         params
     })

@@ -6,7 +6,7 @@ import request from "../../utils/request";
  */
 export function queryAllMenu(){
     return request({
-        url: '/sys/menu/all',
+        url: '/api/sys/menu/all',
         method: 'get'
     })
 }
@@ -17,7 +17,7 @@ export function queryAllMenu(){
  */
 export function getMenuTree(){
     return request({
-        url: '/sys/menu/tree',
+        url: '/api/sys/menu/tree',
         method: 'get'
     })
 }
@@ -29,7 +29,7 @@ export function getMenuTree(){
  */
 export function getMenuTable(params){
     return request({
-        url: '/sys/menu/table',
+        url: '/api/sys/menu/table',
         method: 'get',
         params
     })
@@ -42,7 +42,7 @@ export function getMenuTable(params){
  */
 export function editMenu(data){
     return request({
-        url: '/sys/menu/edit',
+        url: '/api/sys/menu/edit',
         method: 'post',
         data
     })
@@ -55,7 +55,7 @@ export function editMenu(data){
  */
 export function delMenu(params){
     return request({
-        url: '/sys/menu/del',
+        url: '/api/sys/menu/del',
         method: 'delete',
         params
     })
@@ -67,7 +67,7 @@ export function delMenu(params){
  */
 export function getPermission(){
     return request({
-        url: '/sys/menu/permission',
+        url: '/api/sys/menu/permission',
         method: 'get'
     })
 }
@@ -75,7 +75,7 @@ export function getPermission(){
 
 export function getMenuTreeSelect(){
     return request({
-        url: '/sys/menu/select',
+        url: '/api/sys/menu/select',
         method: 'get'
     })
 }
