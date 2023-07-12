@@ -2,23 +2,19 @@
 
 #### 介绍
 ems-admin(easy manage system)是一套极简的后台管理系统，
-基于SpringBoot2.5.2、SpringSecurity、Mybatis-plus3.4.3.4、Mysql8.0、
-JWT、Vue3.0、element-plus开发，vuex也换成了pinia
+基于SpringBoot3.1.1、SpringSecurity6.1.1、Mybatis-plus3.5.3.1、Mysql8.0、
+JWT、Vue3.3.4、element-plus进行开发，
 只提供最基础的登录、权限管理功能与日志功能，所有的业务功能，
 都可以根据自己的需要在此之上构建。
-
-ems-admin-boot是ems-admin后台的SpringBoot版本，
-前端分为基于Layui开发ems-admin-layui和基于element-plus开发的ems-admin-element-plus
+做到真正的开箱即用.
 
 
-[![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/ems-admin/ems-admin-boot/blob/master/LICENSE)
-[![star](https://gitee.com/ems-admin/ems-admin-boot/badge/star.svg?theme=white)](https://gitee.com/ems-admin/ems-admin-boot)
-[![GitHub stars](https://img.shields.io/github/stars/ems-admin/ems-admin-boot.svg?style=social&label=Stars)](https://github.com/ems-admin/ems-admin-boot)
-[![GitHub forks](https://img.shields.io/github/forks/ems-admin/ems-admin-boot.svg?style=social&label=Fork)](https://github.com/ems-admin/ems-admin-boot)
+[![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/ems-admin/ems-vue3/blob/master/LICENSE)
+[![star](https://gitee.com/ems-admin/ems-vue3/badge/star.svg?theme=white)](https://gitee.com/ems-admin/ems-vue2)
+[![GitHub stars](https://img.shields.io/github/stars/ems-admin/ems-vue3.svg?style=social&label=Stars)](https://github.com/ems-admin/ems-vue3)
+[![GitHub forks](https://img.shields.io/github/forks/ems-admin/ems-vue3.svg?style=social&label=Fork)](https://github.com/ems-admin/ems-vue3)
 
-[ems-admin-layui演示站点](http://ems-admin-layui.facebook47.cn/)
-
-[ems-admin-element-plus演示站点](http://ems-admin-element.facebook47.cn/)
+[ems-admin演示站点](http://ems.facebook47.cn/)
 
 #### 支持功能
 
@@ -44,10 +40,10 @@ ems-admin-boot是ems-admin后台的SpringBoot版本，
 
 #### 交流反馈
 
-- ems-admin-layui技术群: `211296170`
+- ems-admin交流群: ![Image](wechat.png)
 
 
-- [issues 问题反馈](https://github.com/ems-admin/ems-admin-boot/issues)
+- [issues 问题反馈](https://github.com/ems-admin/ems-vue2/issues)
 
 
 - [更新日志](CHANGELOG.md)
@@ -61,7 +57,10 @@ ems-admin-boot是ems-admin后台的SpringBoot版本，
 - 用户的访问权限，通过用户-角色-权限的方式进行绑定
 
 
-- 权限管理的细粒度到按钮级别（仅限前端）
+- 权限管理的细粒度到了按钮级别（前端控制）
+
+
+- 验证码使用的是用Guava做的本地缓存
 
 
 #### 后续计划
