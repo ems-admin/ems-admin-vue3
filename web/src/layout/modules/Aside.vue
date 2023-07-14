@@ -7,24 +7,25 @@
     </div>
     <!--默认将首页放在第一位-->
     <el-menu-item route="/home" index="首页" @click="openTab('首页', '/home')"><i class="iconfont icon-home"></i>首页</el-menu-item>
-    <el-sub-menu v-for="(menu, menuIndex) in menuList" :key="menuIndex" :index="menu.name">
-      <template #title>
-        <i :class="menu.icon"></i>
-        <span>{{menu.name}}</span>
-      </template>
-      <el-sub-menu v-if="menu.children.children && menu.children.children.length > 0" index="">
+    <menu-tree :menu-data="menuList"></menu-tree>
+<!--    <el-sub-menu v-for="(menu, menuIndex) in menuList" :key="menuIndex" :index="menu.name">-->
+<!--      <template #title>-->
+<!--        <i :class="menu.icon"></i>-->
+<!--        <span>{{menu.name}}</span>-->
+<!--      </template>-->
+<!--      <el-sub-menu v-if="menu.children.children && menu.children.children.length > 0" index="">-->
 
-      </el-sub-menu>
-      <el-menu-item
-          v-else
-          v-for="(item, itemIndex) in menu.children"
-          :key="itemIndex"
-          :index="item.name"
-          :route="item.path" @click="openTab(item.name, item.path)">
-        <i :class="item.icon"></i>
-        {{item.name}}
-      </el-menu-item>
-    </el-sub-menu>
+<!--      </el-sub-menu>-->
+<!--      <el-menu-item-->
+<!--          v-else-->
+<!--          v-for="(item, itemIndex) in menu.children"-->
+<!--          :key="itemIndex"-->
+<!--          :index="item.name"-->
+<!--          :route="item.path" @click="openTab(item.name, item.path)">-->
+<!--        <i :class="item.icon"></i>-->
+<!--        {{item.name}}-->
+<!--      </el-menu-item>-->
+<!--    </el-sub-menu>-->
   </el-menu>
 </template>
 
@@ -33,6 +34,7 @@ import {useStore} from "../../store";
 import {getMenuTree, getPermission} from "../../api/menu/sysMenu";
 import {errorMsg} from "../../utils/message";
 import {computed, onMounted, ref} from "vue";
+import MenuTree from "../../components/MenuTree"
 
 const store = useStore()
 
