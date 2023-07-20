@@ -10,7 +10,7 @@ JWT、Vue3.3.4、element-plus进行开发，
 
 
 [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/ems-admin/ems-vue3/blob/master/LICENSE)
-[![star](https://gitee.com/ems-admin/ems-vue3/badge/star.svg?theme=white)](https://gitee.com/ems-admin/ems-vue2)
+[![star](https://gitee.com/ems-admin/ems-vue3/badge/star.svg?theme=white)](https://gitee.com/ems-admin/ems-vue3)
 [![GitHub stars](https://img.shields.io/github/stars/ems-admin/ems-vue3.svg?style=social&label=Stars)](https://github.com/ems-admin/ems-vue3)
 [![GitHub forks](https://img.shields.io/github/forks/ems-admin/ems-vue3.svg?style=social&label=Fork)](https://github.com/ems-admin/ems-vue3)
 
