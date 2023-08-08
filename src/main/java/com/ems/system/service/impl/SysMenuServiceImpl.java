@@ -59,6 +59,7 @@ public class SysMenuServiceImpl implements SysMenuService {
                 //  获取当前用户授权的菜单
                 menuListAll = menuMapper.getMenuTree(roles);
                 if (!CollectionUtils.isEmpty(menuListAll)){
+                    menuListAll = menuListAll.stream().filter(item -> !item.getType().equals("3")).collect(Collectors.toList());
                     Set<SysMenu> menuSet = new HashSet<>();
                     List<SysMenu> list = new ArrayList<>();
                     //  遍历所有菜单
