@@ -63,7 +63,12 @@ onMounted(() => {
 })
 
 const getUserListFun = () => {
-  getUserList({blurry: state.blurry}).then(res => {
+  const params = {
+    blurry: state.blurry,
+    size: state.size,
+    currentPage: state.current
+  }
+  getUserList(params).then(res => {
     if (res.success){
       state.tableData = res.data.records
       state.total = res.data.total
