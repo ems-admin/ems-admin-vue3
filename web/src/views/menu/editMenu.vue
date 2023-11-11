@@ -1,6 +1,9 @@
 <template>
   <el-dialog :title="state.title" v-model="visible" draggable :close-on-click-modal="false" @opened="openFun">
     <el-form :model="menuForm" :rules="rules" ref="menuRef" label-width="120px">
+      <el-form-item v-show="false" prop="id">
+        <el-input v-model="menuForm.id"></el-input>
+      </el-form-item>
       <el-row>
         <el-col :span="12">
           <el-form-item label="上级目录" prop="parentId">

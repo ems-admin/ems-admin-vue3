@@ -1,6 +1,9 @@
 <template>
   <el-dialog :title="state.title" v-model="visible" draggable :close-on-click-modal="false" @opened="openFun">
     <el-form :model="state.roleForm" :rules="rules" ref="roleRef" label-width="120px">
+      <el-form-item v-show="false" prop="id">
+        <el-input v-model="state.roleForm.id"></el-input>
+      </el-form-item>
       <el-form-item label="角色名称" prop="roleName">
         <el-input v-model="state.roleForm.roleName" placeholder="请输入角色名称"></el-input>
       </el-form-item>
