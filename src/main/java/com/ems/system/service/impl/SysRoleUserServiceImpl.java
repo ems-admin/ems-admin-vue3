@@ -34,14 +34,9 @@ public class SysRoleUserServiceImpl implements SysRoleUserService {
      */
     @Override
     public List<SysRoleUser> getRoleUserByRoleId(Long roleId) {
-        try {
-            QueryWrapper<SysRoleUser> wrapper = new QueryWrapper<>();
-            wrapper.eq("role_id", roleId);
-            return roleUserMapper.selectList(wrapper);
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
-        }
+        LambdaQueryWrapper<SysRoleUser> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysRoleUser::getRoleId, roleId);
+        return roleUserMapper.selectList(wrapper);
     }
 
     /**
@@ -56,22 +51,17 @@ public class SysRoleUserServiceImpl implements SysRoleUserService {
     @Override
     @Transactional
     public void edit(Long userId, List<String> roleIds) {
-        try {
-            //  首先清空该用户所有角色
-            QueryWrapper<SysRoleUser> wrapper = new QueryWrapper<>();
-            wrapper.eq("user_id", userId);
-            roleUserMapper.delete(wrapper);
-            //  然后将用户与角色绑定
-            roleIds.forEach(role -> {
-                SysRoleUser roleUser = new SysRoleUser();
-                roleUser.setUserId(userId);
-                roleUser.setRoleId(Long.parseLong(role));
-                roleUserMapper.insert(roleUser);
-            });
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
-        }
+        //  首先清空该用户所有角色
+        LambdaQueryWrapper<SysRoleUser> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysRoleUser::getUserId, userId);
+        roleUserMapper.delete(wrapper);
+        //  然后将用户与角色绑定
+        roleIds.forEach(role -> {
+            SysRoleUser roleUser = new SysRoleUser();
+            roleUser.setUserId(userId);
+            roleUser.setRoleId(Long.parseLong(role));
+            roleUserMapper.insert(roleUser);
+        });
     }
 
     /**
@@ -84,14 +74,9 @@ public class SysRoleUserServiceImpl implements SysRoleUserService {
      */
     @Override
     public List<SysRoleUser> getRoleUserByUserId(Long userId) {
-        try {
-            QueryWrapper<SysRoleUser> wrapper = new QueryWrapper<>();
-            wrapper.eq("user_id", userId);
-            return roleUserMapper.selectList(wrapper);
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
-        }
+        LambdaQueryWrapper<SysRoleUser> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysRoleUser::getUserId, userId);
+        return roleUserMapper.selectList(wrapper);
     }
 
     /**
@@ -104,13 +89,8 @@ public class SysRoleUserServiceImpl implements SysRoleUserService {
      */
     @Override
     public void deleteByUserId(String userId) {
-        try {
-            LambdaQueryWrapper<SysRoleUser> wrapper = new LambdaQueryWrapper<>();
-            wrapper.eq(SysRoleUser::getUserId, userId);
-            roleUserMapper.delete(wrapper);
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
-        }
+        LambdaQueryWrapper<SysRoleUser> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysRoleUser::getUserId, userId);
+        roleUserMapper.delete(wrapper);
     }
 }

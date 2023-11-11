@@ -49,14 +49,9 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public SysUser findByName(String userName) {
-        try {
-            QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
-            wrapper.eq("username", userName);
-            return sysUserMapper.selectOne(wrapper);
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
-        }
+        LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysUser::getUsername, userName);
+        return sysUserMapper.selectOne(wrapper);
     }
 
     /**
@@ -69,32 +64,27 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public void editUser(UserDto userDto) {
-        try {
-            checkUser(userDto);
-            SysUser user = new SysUser();
-            user.setPassword(userDto.getPassword());
-            user.setUsername(userDto.getUsername());
-            user.setEmail(userDto.getEmail());
-            user.setId(userDto.getId());
-            user.setNickName(userDto.getNickName());
-            if (userDto.getEnabled() != null){
-                user.setEnabled(userDto.getEnabled());
-            }
-            if (user.getId() != null){
-                sysUserMapper.updateById(user);
-            } else {
-                //  初始化用户密码.默认111111
-                user.setPassword(passwordEncoder.encode(CommonConstants.DEFAULT_PASSWORD));
-                sysUserMapper.insert(user);
-            }
+        checkUser(userDto);
+        SysUser user = new SysUser();
+        user.setPassword(userDto.getPassword());
+        user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
+        user.setId(userDto.getId());
+        user.setNickName(userDto.getNickName());
+        if (userDto.getEnabled() != null){
+            user.setEnabled(userDto.getEnabled());
+        }
+        if (user.getId() != null){
+            sysUserMapper.updateById(user);
+        } else {
+            //  初始化用户密码.默认111111
+            user.setPassword(passwordEncoder.encode(CommonConstants.DEFAULT_PASSWORD));
+            sysUserMapper.insert(user);
+        }
 
-            //  如果带有角色,就修改角色
-            if (!CollectionUtils.isEmpty(userDto.getRoleIds()) && user.getId() != null){
-                roleUserService.edit(user.getId(), userDto.getRoleIds());
-            }
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
+        //  如果带有角色,就修改角色
+        if (!CollectionUtils.isEmpty(userDto.getRoleIds()) && user.getId() != null){
+            roleUserService.edit(user.getId(), userDto.getRoleIds());
         }
     }
 
@@ -108,15 +98,10 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public IPage<UserDto> queryUserTable(QueryDto queryDto) {
-        try {
-            Page<UserDto> page = new Page<>();
-            page.setCurrent(queryDto.getCurrentPage());
-            page.setSize(queryDto.getSize());
-            return sysUserMapper.queryUserTable(page, queryDto.getBlurry());
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
-        }
+        Page<UserDto> page = new Page<>();
+        page.setCurrent(queryDto.getCurrentPage());
+        page.setSize(queryDto.getSize());
+        return sysUserMapper.queryUserTable(page, queryDto.getBlurry());
     }
 
     /**
@@ -129,12 +114,7 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public UserDto loadByName(String username) {
-        try {
-            return sysUserMapper.loadByName(username);
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
-        }
+        return sysUserMapper.loadByName(username);
     }
 
     /**
@@ -146,17 +126,12 @@ public class SysUserServiceImpl implements SysUserService {
      * @Date: 2021/11/27
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = BadRequestException.class)
     public void delUser(String id) {
-        try {
-            //  先解除用户与角色的绑定
-            roleUserService.deleteByUserId(id);
-            //  再删除用户
-            sysUserMapper.deleteById(id);
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
-        }
+        //  先解除用户与角色的绑定
+        roleUserService.deleteByUserId(id);
+        //  再删除用户
+        sysUserMapper.deleteById(id);
     }
 
     /**
@@ -169,12 +144,7 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public void enabledUser(SysUser sysUser) {
-        try {
-            sysUserMapper.updateById(sysUser);
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
-        }
+        sysUserMapper.updateById(sysUser);
     }
 
     /**
@@ -187,29 +157,24 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public void updatePassword(JSONObject jsonObject) {
-        try {
-            String password = jsonObject.getString("password");
-            String newPassword = jsonObject.getString("newPassword");
-            String confirmPassword = jsonObject.getString("confirmPassword");
+        String password = jsonObject.getString("password");
+        String newPassword = jsonObject.getString("newPassword");
+        String confirmPassword = jsonObject.getString("confirmPassword");
 
-            //  获取当前登录用户
-            SysUser user = sysUserMapper.selectById(SecurityUtil.getCurrentUserId());
-            String pwd = user.getPassword();
-            //  校验原密码
-            if (!passwordEncoder.matches(password, pwd)){
-                throw new BadRequestException("原密码错误，请重新输入");
-            }
-            //  校验新密码与确认密码
-            if (!newPassword.equals(confirmPassword)){
-                throw new BadRequestException("新密码与确认密码不相同，请重新输入");
-            }
-            //  修改密码为新密码
-            user.setPassword(passwordEncoder.encode(newPassword));
-            sysUserMapper.updateById(user);
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
+        //  获取当前登录用户
+        SysUser user = sysUserMapper.selectById(SecurityUtil.getCurrentUserId());
+        String pwd = user.getPassword();
+        //  校验原密码
+        if (!passwordEncoder.matches(password, pwd)){
+            throw new BadRequestException("原密码错误，请重新输入");
         }
+        //  校验新密码与确认密码
+        if (!newPassword.equals(confirmPassword)){
+            throw new BadRequestException("新密码与确认密码不相同，请重新输入");
+        }
+        //  修改密码为新密码
+        user.setPassword(passwordEncoder.encode(newPassword));
+        sysUserMapper.updateById(user);
     }
 
     /**

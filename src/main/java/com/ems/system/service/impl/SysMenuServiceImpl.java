@@ -46,45 +46,40 @@ public class SysMenuServiceImpl implements SysMenuService {
      */
     @Override
     public JSONArray getMenuTree(List<String> roles) {
-        try {
-            List<SysMenu> menuListAll;
-            //  如果角色中包含admin,则直接查询所有非按钮菜单
-            if (roles.contains(CommonConstants.ROLE_ADMIN)){
-                LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
-                wrapper.ne(SysMenu::getType, "3");
-                wrapper.orderByAsc(SysMenu::getSort);
-                menuListAll = menuMapper.selectList(wrapper);
+        List<SysMenu> menuListAll;
+        //  如果角色中包含admin,则直接查询所有非按钮菜单
+        if (roles.contains(CommonConstants.ROLE_ADMIN)){
+            LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
+            wrapper.ne(SysMenu::getType, "3");
+            wrapper.orderByAsc(SysMenu::getSort);
+            menuListAll = menuMapper.selectList(wrapper);
             //  否则
-            } else {
-                //  获取当前用户授权的菜单
-                menuListAll = menuMapper.getMenuTree(roles);
-                if (!CollectionUtils.isEmpty(menuListAll)){
-                    menuListAll = menuListAll.stream().filter(item -> !item.getType().equals("3")).collect(Collectors.toList());
-                    Set<SysMenu> menuSet = new HashSet<>();
-                    List<SysMenu> list = new ArrayList<>();
-                    //  遍历所有菜单
-                    for (SysMenu sysMenu : menuListAll) {
-                        list.add(sysMenu);
-                        //  获取当前菜单的所有上级菜单
-                        getAllMenusByChildId(sysMenu.getParentId(), list);
-                        for (SysMenu menu : list) {
-                            if (menuSet.stream().noneMatch(item -> item.getId().equals(menu.getId()))){
-                                menuSet.add(menu);
-                            }
+        } else {
+            //  获取当前用户授权的菜单
+            menuListAll = menuMapper.getMenuTree(roles);
+            if (!CollectionUtils.isEmpty(menuListAll)){
+                menuListAll = menuListAll.stream().filter(item -> !item.getType().equals("3")).collect(Collectors.toList());
+                Set<SysMenu> menuSet = new HashSet<>();
+                List<SysMenu> list = new ArrayList<>();
+                //  遍历所有菜单
+                for (SysMenu sysMenu : menuListAll) {
+                    list.add(sysMenu);
+                    //  获取当前菜单的所有上级菜单
+                    getAllMenusByChildId(sysMenu.getParentId(), list);
+                    for (SysMenu menu : list) {
+                        if (menuSet.stream().noneMatch(item -> item.getId().equals(menu.getId()))){
+                            menuSet.add(menu);
                         }
                     }
-                    menuListAll = menuSet.stream().sorted(Comparator.comparing(SysMenu::getId)).collect(Collectors.toList());
                 }
+                menuListAll = menuSet.stream().sorted(Comparator.comparing(SysMenu::getId)).collect(Collectors.toList());
             }
-            JSONArray jsonArray = new JSONArray();
-            //  获取最上级菜单
-            List<SysMenu> topList = menuListAll.stream().filter(item -> item.getParentId() == 0L).collect(Collectors.toList());
-            //  如果最上级菜单不为空
-            return getObjects(menuListAll, jsonArray, topList);
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
         }
+        JSONArray jsonArray = new JSONArray();
+        //  获取最上级菜单
+        List<SysMenu> topList = menuListAll.stream().filter(item -> item.getParentId() == 0L).collect(Collectors.toList());
+        //  如果最上级菜单不为空
+        return getObjects(menuListAll, jsonArray, topList);
     }
 
     /**
@@ -141,18 +136,13 @@ public class SysMenuServiceImpl implements SysMenuService {
      */
     @Override
     public void editMenu(SysMenu sysMenu) {
-        try {
-            if (sysMenu.getParentId() == null){
-                throw new BadRequestException("缺少上级目录，编辑失败");
-            }
-            if (sysMenu.getId() != null){
-                menuMapper.updateById(sysMenu);
-            } else {
-                menuMapper.insert(sysMenu);
-            }
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
+        if (sysMenu.getParentId() == null){
+            throw new BadRequestException("缺少上级目录，编辑失败");
+        }
+        if (sysMenu.getId() != null){
+            menuMapper.updateById(sysMenu);
+        } else {
+            menuMapper.insert(sysMenu);
         }
     }
 
@@ -166,14 +156,9 @@ public class SysMenuServiceImpl implements SysMenuService {
      */
     @Override
     public void delMenu(Long id) {
-        try {
-            //  校验菜单是否已绑定角色
-            checkMenuRole(id);
-            menuMapper.deleteById(id);
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
-        }
+        //  校验菜单是否已绑定角色
+        checkMenuRole(id);
+        menuMapper.deleteById(id);
     }
 
     /**
@@ -186,15 +171,10 @@ public class SysMenuServiceImpl implements SysMenuService {
      */
     @Override
     public List<SysMenu> queryAllMenus(List<String> roles) {
-        try {
-            if (roles.contains(CommonConstants.ROLE_ADMIN)){
-                return menuMapper.selectList(null);
-            }
-            return menuMapper.getMenuTree(roles);
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
+        if (roles.contains(CommonConstants.ROLE_ADMIN)){
+            return menuMapper.selectList(null);
         }
+        return menuMapper.getMenuTree(roles);
     }
 
     /**
@@ -207,22 +187,17 @@ public class SysMenuServiceImpl implements SysMenuService {
      */
     @Override
     public JSONArray getMenuTable(String blurry) {
-        try {
-            JSONArray jsonArray = new JSONArray();
-            LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
-            if (StringUtil.isNotBlank(blurry)){
-                wrapper.like(SysMenu::getName, blurry);
-                wrapper.or();
-                wrapper.like(SysMenu::getPath, blurry);
-            }
-            wrapper.orderByAsc(SysMenu::getSort);
-            List<SysMenu> list = menuMapper.selectList(wrapper);
-            List<SysMenu> topList = list.stream().filter(item -> item.getParentId() == 0L).collect(Collectors.toList());
-            return getObjects(list, jsonArray, topList);
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
+        JSONArray jsonArray = new JSONArray();
+        LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
+        if (StringUtil.isNotBlank(blurry)){
+            wrapper.like(SysMenu::getName, blurry);
+            wrapper.or();
+            wrapper.like(SysMenu::getPath, blurry);
         }
+        wrapper.orderByAsc(SysMenu::getSort);
+        List<SysMenu> list = menuMapper.selectList(wrapper);
+        List<SysMenu> topList = list.stream().filter(item -> item.getParentId() == 0L).collect(Collectors.toList());
+        return getObjects(list, jsonArray, topList);
     }
 
     /**
@@ -235,12 +210,7 @@ public class SysMenuServiceImpl implements SysMenuService {
      */
     @Override
     public List<String> getUrlsByRoles(List<String> roles) {
-        try {
-            return menuMapper.getMenuUrlByRole(roles);
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
-        }
+        return menuMapper.getMenuUrlByRole(roles);
     }
 
     /**
@@ -252,22 +222,17 @@ public class SysMenuServiceImpl implements SysMenuService {
      */
     @Override
     public List<String> getPermission() {
-        try {
-            List<String> roles = SecurityUtil.getCurrentRoles();
-            List<String> permissions;
-            if (roles.contains(CommonConstants.ROLE_ADMIN)){
-                LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
-                wrapper.select(SysMenu::getPermission);
-                wrapper.eq(SysMenu::getType, "3");
-                permissions = menuMapper.selectObjs(wrapper).stream().map(o -> (String)o).collect(Collectors.toList());
-            } else {
-                permissions = menuMapper.getPermission(roles);
-            }
-            return permissions;
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
+        List<String> roles = SecurityUtil.getCurrentRoles();
+        List<String> permissions;
+        if (roles.contains(CommonConstants.ROLE_ADMIN)){
+            LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
+            wrapper.select(SysMenu::getPermission);
+            wrapper.eq(SysMenu::getType, "3");
+            permissions = menuMapper.selectObjs(wrapper).stream().map(o -> (String)o).collect(Collectors.toList());
+        } else {
+            permissions = menuMapper.getPermission(roles);
         }
+        return permissions;
     }
 
     /**
@@ -303,16 +268,11 @@ public class SysMenuServiceImpl implements SysMenuService {
     * @Date: 2021/12/4
     */
     private void checkMenuRole(Long menuId){
-        try {
-            LambdaQueryWrapper<SysRoleMenu> wrapper = new LambdaQueryWrapper<>();
-            wrapper.eq(SysRoleMenu::getMenuId, menuId);
-            long count = roleMenuMapper.selectCount(wrapper);
-            if (count > 0){
-                throw new BadRequestException("该菜单已绑定角色，无法删除");
-            }
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
+        LambdaQueryWrapper<SysRoleMenu> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysRoleMenu::getMenuId, menuId);
+        long count = roleMenuMapper.selectCount(wrapper);
+        if (count > 0){
+            throw new BadRequestException("该菜单已绑定角色，无法删除");
         }
     }
 
@@ -323,19 +283,14 @@ public class SysMenuServiceImpl implements SysMenuService {
     * @Date: 2021/12/17
     */
     private void getAllMenusByChildId(Long menuId, List<SysMenu> list){
-        try {
-            SysMenu sysMenu = menuMapper.selectById(menuId);
-            //  如果当前菜单不是最顶级的菜单
-            if (sysMenu != null){
-                list.add(sysMenu);
-                //  如果当前菜单的上级菜单也不是最顶级的菜单
-                if (!sysMenu.getParentId().equals(0L)){
-                    getAllMenusByChildId(sysMenu.getParentId(), list);
-                }
+        SysMenu sysMenu = menuMapper.selectById(menuId);
+        //  如果当前菜单不是最顶级的菜单
+        if (sysMenu != null){
+            list.add(sysMenu);
+            //  如果当前菜单的上级菜单也不是最顶级的菜单
+            if (!sysMenu.getParentId().equals(0L)){
+                getAllMenusByChildId(sysMenu.getParentId(), list);
             }
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
         }
     }
 

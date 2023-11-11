@@ -37,7 +37,6 @@ public class SysRoleController extends ResultUtil {
         try {
             return success(true, roleService.getRoleList(blurry));
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, e.getMsg());
         }
     }
@@ -58,7 +57,6 @@ public class SysRoleController extends ResultUtil {
             roleService.editRole(role);
             return success(true, tag);
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, e.getMsg());
         }
     }
@@ -77,7 +75,6 @@ public class SysRoleController extends ResultUtil {
             roleService.delRole(id);
             return success(true, "删除成功");
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, e.getMsg());
         }
     }
@@ -95,7 +92,6 @@ public class SysRoleController extends ResultUtil {
         try {
             return success(true, roleService.getAllRoleForXm(userId));
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, e.getMsg());
         }
     }

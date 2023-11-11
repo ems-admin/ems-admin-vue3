@@ -35,7 +35,6 @@ public class SysRoleMenuController extends ResultUtil {
         try {
             return success(true, roleMenuService.getMenuByRoleId(roleId));
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, e.getMsg());
         }
     }
@@ -54,7 +53,6 @@ public class SysRoleMenuController extends ResultUtil {
             roleMenuService.editMenuRoleByRoleId(roleMenuDto);
             return success(true, "授权成功");
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, e.getMsg());
         }
     }

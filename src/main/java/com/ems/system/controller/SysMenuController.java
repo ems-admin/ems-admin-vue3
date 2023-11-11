@@ -40,7 +40,6 @@ public class SysMenuController extends ResultUtil {
             List<String> roles = SecurityUtil.getCurrentRoles();
             return success(true, menuService.getMenuTree(roles));
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, e.getMsg());
         }
     }
@@ -58,7 +57,6 @@ public class SysMenuController extends ResultUtil {
         try {
             return success(true, menuService.getPermission());
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, e.getMsg());
         }
     }
@@ -76,7 +74,6 @@ public class SysMenuController extends ResultUtil {
             List<String> roles = SecurityUtil.getCurrentRoles();
             return success(true, menuService.queryAllMenus(roles));
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, e.getMsg());
         }
     }
@@ -94,7 +91,6 @@ public class SysMenuController extends ResultUtil {
         try {
             return success(true, menuService.getMenuTable(blurry));
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, e.getMsg());
         }
     }
@@ -114,7 +110,6 @@ public class SysMenuController extends ResultUtil {
             menuService.editMenu(sysMenu);
             return success(true, str);
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, e.getMsg());
         }
     }
@@ -133,7 +128,6 @@ public class SysMenuController extends ResultUtil {
             menuService.delMenu(id);
             return success(true, "删除成功");
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, e.getMsg());
         }
     }
@@ -144,7 +138,6 @@ public class SysMenuController extends ResultUtil {
         try {
             return success(true, menuService.getMenuTreeSelect());
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, e.getMsg());
         }
     }

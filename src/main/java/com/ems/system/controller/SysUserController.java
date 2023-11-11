@@ -39,7 +39,6 @@ public class SysUserController extends ResultUtil {
         try {
             return success(true, userService.queryUserTable(queryDto));
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, e.getMsg());
         }
     }
@@ -59,7 +58,6 @@ public class SysUserController extends ResultUtil {
             userService.editUser(userDto);
             return success(true, str);
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, e.getMsg());
         }
     }
@@ -78,7 +76,6 @@ public class SysUserController extends ResultUtil {
             userService.delUser(id);
             return success(true, "删除成功");
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, "删除失败");
         }
     }
@@ -98,7 +95,6 @@ public class SysUserController extends ResultUtil {
             userService.enabledUser(sysUser);
             return success(true, str + "成功");
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, e.getMsg());
         }
     }
@@ -117,7 +113,6 @@ public class SysUserController extends ResultUtil {
             userService.updatePassword(jsonObject);
             return success(true, "修改成功");
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, "修改失败");
         }
     }

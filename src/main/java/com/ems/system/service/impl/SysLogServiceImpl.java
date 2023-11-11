@@ -100,23 +100,18 @@ public class SysLogServiceImpl implements SysLogService {
      */
     @Override
     public IPage<SysLog> getLogList(QueryDto queryDto, String logType) {
-        try {
-            LambdaQueryWrapper<SysLog> wrapper = new LambdaQueryWrapper<>();
-            wrapper.orderByDesc(SysLog::getCreateTime);
-            if (StringUtil.isNotBlank(logType)){
-                wrapper.eq(SysLog::getLogType, logType);
-            }
-            if (StringUtil.isNotBlank(queryDto.getBlurry())){
-                wrapper.and(q -> q.like(SysLog::getUsername, queryDto.getBlurry())
-                        .or().like(SysLog::getDescription, queryDto.getBlurry()));
-            }
-            Page<SysLog> page = new Page<>();
-            page.setSize(queryDto.getSize());
-            page.setCurrent(queryDto.getCurrentPage());
-            return logMapper.selectPage(page, wrapper);
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
+        LambdaQueryWrapper<SysLog> wrapper = new LambdaQueryWrapper<>();
+        wrapper.orderByDesc(SysLog::getCreateTime);
+        if (StringUtil.isNotBlank(logType)){
+            wrapper.eq(SysLog::getLogType, logType);
         }
+        if (StringUtil.isNotBlank(queryDto.getBlurry())){
+            wrapper.and(q -> q.like(SysLog::getUsername, queryDto.getBlurry())
+                    .or().like(SysLog::getDescription, queryDto.getBlurry()));
+        }
+        Page<SysLog> page = new Page<>();
+        page.setSize(queryDto.getSize());
+        page.setCurrent(queryDto.getCurrentPage());
+        return logMapper.selectPage(page, wrapper);
     }
 }

@@ -41,14 +41,9 @@ public class SysRoleMenuServiceImpl implements SysRoleMenuService {
      */
     @Override
     public List<SysRoleMenu> getMenuByRoleId(Long roleId) {
-        try {
-            LambdaQueryWrapper<SysRoleMenu> wrapper = new LambdaQueryWrapper<>();
-            wrapper.eq(SysRoleMenu::getRoleId, roleId);
-            return roleMenuMapper.selectList(wrapper);
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
-        }
+        LambdaQueryWrapper<SysRoleMenu> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysRoleMenu::getRoleId, roleId);
+        return roleMenuMapper.selectList(wrapper);
     }
 
     /**
@@ -62,30 +57,25 @@ public class SysRoleMenuServiceImpl implements SysRoleMenuService {
     @Override
     @Transactional
     public void editMenuRoleByRoleId(RoleMenuDto roleMenuDto) {
-        try {
-            Long roleId = roleMenuDto.getRoleId();
-            //  获取当前角色信息
-            SysRole role = roleMapper.selectById(roleId);
-            if (role == null){
-                throw new BadRequestException("当前角色不存在");
-            }
-            if (CommonConstants.ROLE_ADMIN.equals(role.getRoleCode())){
-                throw new BadRequestException("超级管理员拥有所有权限，无需授权");
-            }
-            //  1先清空之前角色的所有菜单
-            deleteByRoleId(roleId);
-            //  2遍历所有的菜单
-            if (!CollectionUtils.isEmpty(roleMenuDto.getMenuIds())){
-                roleMenuDto.getMenuIds().forEach(menuId -> {
-                    SysRoleMenu roleMenu = new SysRoleMenu();
-                    roleMenu.setMenuId(menuId);
-                    roleMenu.setRoleId(roleId);
-                    roleMenuMapper.insert(roleMenu);
-                });
-            }
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
+        Long roleId = roleMenuDto.getRoleId();
+        //  获取当前角色信息
+        SysRole role = roleMapper.selectById(roleId);
+        if (role == null){
+            throw new BadRequestException("当前角色不存在");
+        }
+        if (CommonConstants.ROLE_ADMIN.equals(role.getRoleCode())){
+            throw new BadRequestException("超级管理员拥有所有权限，无需授权");
+        }
+        //  1先清空之前角色的所有菜单
+        deleteByRoleId(roleId);
+        //  2遍历所有的菜单
+        if (!CollectionUtils.isEmpty(roleMenuDto.getMenuIds())){
+            roleMenuDto.getMenuIds().forEach(menuId -> {
+                SysRoleMenu roleMenu = new SysRoleMenu();
+                roleMenu.setMenuId(menuId);
+                roleMenu.setRoleId(roleId);
+                roleMenuMapper.insert(roleMenu);
+            });
         }
     }
 
@@ -99,13 +89,8 @@ public class SysRoleMenuServiceImpl implements SysRoleMenuService {
      */
     @Override
     public void deleteByRoleId(Long roleId) {
-        try {
-            LambdaQueryWrapper<SysRoleMenu> wrapper = new LambdaQueryWrapper<>();
-            wrapper.eq(SysRoleMenu::getRoleId, roleId);
-            roleMenuMapper.delete(wrapper);
-        } catch (BadRequestException e) {
-            e.printStackTrace();
-            throw new BadRequestException(e.getMsg());
-        }
+        LambdaQueryWrapper<SysRoleMenu> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysRoleMenu::getRoleId, roleId);
+        roleMenuMapper.delete(wrapper);
     }
 }

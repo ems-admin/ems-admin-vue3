@@ -35,7 +35,6 @@ public class SysLogController extends ResultUtil {
         try {
             return success(true, logService.getLogList(queryDto, logType));
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, e.getMsg());
         }
     }
