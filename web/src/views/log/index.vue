@@ -24,7 +24,7 @@
           <span>{{scope.row.logType === '1' ? '成功' : '失败'}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="错误详情" prop="exceptionDetail" show-tooltip-when-overflow>
+      <el-table-column label="错误详情" prop="exceptionDetail" show-overflow-tooltip>
         <!--将错误的长度显示限制在100，防止内容过长，引起由于show-tooltip-when-overflow自带BUG产生页面的抖动-->
         <template #default="scope">
           <span>{{scope.row.exceptionDetail ? scope.row.exceptionDetail.substring(0, 100) : ''}}</span>

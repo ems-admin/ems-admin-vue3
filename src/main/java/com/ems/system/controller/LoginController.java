@@ -140,7 +140,6 @@ public class LoginController extends ResultUtil {
                 }
             }
         } catch (BadRequestException e) {
-            e.printStackTrace();
             return fail(false, e.getMsg());
         }
         return fail(false, "请重新登录");

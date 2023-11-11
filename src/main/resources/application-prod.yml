@@ -19,11 +19,6 @@ spring:
     async:
       request-timeout: 5000ms
 
-  redis:
-    database: 1
-    host: localhost
-    port: 6379
-
 #mybatis-plus
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml

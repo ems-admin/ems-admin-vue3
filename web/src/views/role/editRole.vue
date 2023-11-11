@@ -155,10 +155,10 @@ const submitRole = () => {
 </script>
 
 <style scoped>
- ::v-deep .vue-treeselect__control{
+ :deep(.vue-treeselect__control){
   height: 28px;
 }
- ::v-deep .el-form-item__content{
+ :deep(.el-form-item__content){
    line-height: 28px;
    font-size: 12px;
  }

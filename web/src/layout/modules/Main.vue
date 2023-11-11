@@ -55,26 +55,26 @@ const removeTab = (name) => {
 </script>
 
 <style scoped>
-::v-deep .el-tabs__content{
+ :deep(.el-tabs__content){
   height: calc(100vh - 120px);
   padding-left: 30px;
   padding-right: 30px;
 }
-::v-deep  .el-tabs__nav-wrap{
+ :deep(.el-tabs__nav-wrap){
   height: 40px;
   border-top: 1px solid #d8dce5;
   border-bottom: 1px solid #d8dce5;
   background-color: rgb(247, 247, 247);
 }
 
-::v-deep  .el-tabs__nav{
+:deep(.el-tabs__nav){
   border: none!important;
   height: 40px;
   display: flex;
   align-items: center;
 }
 
-::v-deep .el-tabs__item.is-active {
+:deep(.el-tabs__item.is-active){
   height: 30px;
   line-height: 30px;
   background-color: #42b983;
@@ -82,7 +82,7 @@ const removeTab = (name) => {
   color: white;
 }
 
-::v-deep  .el-tabs__item.is-active::before {
+:deep(.el-tabs__item.is-active::before) {
   content: "";
   background-color: #fff;
   display: inline-block;

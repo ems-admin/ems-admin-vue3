@@ -18,6 +18,14 @@ module.exports = defineConfig({
                     '^/api': ''
                 },
                 timeout: 60 * 1000
+            },
+            '/auth': {
+                target: `http://${http}`,
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/auth': '/auth'
+                },
+                timeout: 60 * 1000
             }
         }
     },
