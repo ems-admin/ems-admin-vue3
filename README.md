@@ -2,8 +2,8 @@
 
 #### 介绍
 ems-admin(easy manage system)是一套极简的后台管理系统，
-基于SpringBoot3.1.1、SpringSecurity6.1.1、Mybatis-plus3.5.3.1、Mysql8.0、
-JWT、Vue3.3.4、element-plus进行开发，
+基于SpringBoot3.4.1、SpringSecurity6.1.1、Mybatis-plus3.5.9、Mysql8.0、
+JWT、Vue3.5.13、element-plus进行开发，
 只提供最基础的登录、权限管理功能与日志功能，所有的业务功能，
 都可以根据自己的需要在此之上构建。
 做到真正的开箱即用.
