@@ -40,13 +40,16 @@ JWT、Vue3.3.4、element-plus进行开发，
 
 #### 交流反馈
 
-- ems-admin交流群: ![Image](wechat.png)
-
 
 - [issues 问题反馈](https://github.com/ems-admin/ems-vue2/issues)
 
 
 - [更新日志](CHANGELOG.md)
+
+
+#### 必应壁纸
+
+- 对必应壁纸感兴趣的，可以访问 [必应壁纸](https://bing.fullpx.com)
 
 
 #### 软件架构

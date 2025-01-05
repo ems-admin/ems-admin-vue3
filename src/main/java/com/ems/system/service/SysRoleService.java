@@ -1,6 +1,7 @@
 package com.ems.system.service;
 
-import com.alibaba.fastjson.JSONArray;
+
+import com.alibaba.fastjson2.JSONArray;
 import com.ems.system.entity.SysRole;
 import org.springframework.security.core.GrantedAuthority;
 

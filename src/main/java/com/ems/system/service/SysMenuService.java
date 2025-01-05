@@ -1,7 +1,7 @@
 package com.ems.system.service;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+
+import com.alibaba.fastjson2.JSONArray;
 import com.ems.system.entity.SysMenu;
 
 import java.util.List;

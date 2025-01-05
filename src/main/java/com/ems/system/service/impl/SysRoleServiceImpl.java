@@ -1,11 +1,11 @@
 package com.ems.system.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ems.common.constant.CommonConstants;
-import com.ems.common.constant.SecurityConstants;
 import com.ems.common.exception.BadRequestException;
 import com.ems.system.entity.SysRole;
 import com.ems.system.entity.SysRoleUser;
