@@ -21,9 +21,9 @@ public class ResultUtil {
     * @Author: starao
     * @Date: 2021/11/27
     */
-    public static ResponseEntity<Object> success(boolean code, Object data){
+    public static ResponseEntity<Object> success(Object data){
         Map<String, Object> map = new HashMap<>(4);
-        map.put("success", code);
+        map.put("success", Boolean.TRUE);
         map.put("data", data);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
@@ -35,9 +35,9 @@ public class ResultUtil {
     * @Author: starao
     * @Date: 2021/11/27
     */
-    public static ResponseEntity<Object> fail(boolean code, String msg){
+    public static ResponseEntity<Object> fail(String msg){
         Map<String, Object> map = new HashMap<>(4);
-        map.put("success", code);
+        map.put("success", Boolean.FALSE);
         map.put("msg", msg);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }

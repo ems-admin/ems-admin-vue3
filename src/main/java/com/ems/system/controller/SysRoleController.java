@@ -35,9 +35,9 @@ public class SysRoleController extends ResultUtil {
     @GetMapping("/role/table")
     public ResponseEntity<Object> getRoleList(String blurry){
         try {
-            return success(true, roleService.getRoleList(blurry));
+            return success(roleService.getRoleList(blurry));
         } catch (BadRequestException e) {
-            return fail(false, e.getMsg());
+            return fail(e.getMsg());
         }
     }
 
@@ -55,9 +55,9 @@ public class SysRoleController extends ResultUtil {
         try {
             String tag = StringUtil.getEditType(role.getId());
             roleService.editRole(role);
-            return success(true, tag);
+            return success(tag);
         } catch (BadRequestException e) {
-            return fail(false, e.getMsg());
+            return fail(e.getMsg());
         }
     }
 
@@ -73,9 +73,9 @@ public class SysRoleController extends ResultUtil {
     public ResponseEntity<Object> delRole(Long id){
         try {
             roleService.delRole(id);
-            return success(true, "删除成功");
+            return success("删除成功");
         } catch (BadRequestException e) {
-            return fail(false, e.getMsg());
+            return fail(e.getMsg());
         }
     }
 
@@ -90,9 +90,9 @@ public class SysRoleController extends ResultUtil {
     @GetMapping("/role/select")
     public ResponseEntity<Object> getAllRoleForXm(Long userId){
         try {
-            return success(true, roleService.getAllRoleForXm(userId));
+            return success(roleService.getAllRoleForXm(userId));
         } catch (BadRequestException e) {
-            return fail(false, e.getMsg());
+            return fail(e.getMsg());
         }
     }
 }

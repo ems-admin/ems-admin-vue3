@@ -15,7 +15,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.util.CollectionUtils;
 
+import javax.crypto.SecretKey;
 import javax.xml.bind.DatatypeConverter;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -30,12 +32,30 @@ import java.util.stream.Collectors;
 @Slf4j
 public class JwtUtil {
 
-    private static final byte[] secretKey = DatatypeConverter.parseBase64Binary(SecurityConstants.JWT_SECRET_KEY);
+    private static final String secretKey = SecurityConstants.JWT_SECRET_KEY;
 
-    private static final byte[] refreshKey = DatatypeConverter.parseBase64Binary(SecurityConstants.JWT_REFRESH_KEY);
+    private static final String refreshKey = SecurityConstants.JWT_REFRESH_KEY;
 
     private JwtUtil(){
         throw new IllegalStateException("禁止创建当前对象");
+    }
+
+    /**
+     * 生成 SecretKey
+     * @return
+     */
+    private static SecretKey getSigningKey() {
+        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    /**
+     * 生成 refreshKey
+     * @return
+     */
+    private static SecretKey getRefreshKey() {
+        byte[] keyBytes = refreshKey.getBytes(StandardCharsets.UTF_8);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     /**
@@ -53,19 +73,18 @@ public class JwtUtil {
             //  生成token
             return Jwts.builder()
                     //  生成签证信息
-                    .setHeaderParam("typ", SecurityConstants.TOKEN_TYPE)
-                    .signWith(Keys.hmacShaKeyFor(secretKey))
+                    .signWith(getSigningKey())
                     //  所有人
-                    .setSubject(userName)
+                    .subject(userName)
                     //  角色
                     .claim(SecurityConstants.TOKEN_ROLE_CLAIM, roles)
                     //  JWT主体
-                    .setIssuer(SecurityConstants.TOKEN_ISSUER)
+                    .issuer(SecurityConstants.TOKEN_ISSUER)
                     //  签发时间
-                    .setIssuedAt(new Date())
-                    .setAudience(SecurityConstants.TOKEN_AUDIENCE)
+                    .issuedAt(new Date())
+                    .audience().add(SecurityConstants.TOKEN_AUDIENCE).and()
                     //  设置有效时间
-                    .setExpiration(new Date(System.currentTimeMillis() + expirationTime * 1000))
+                    .expiration(new Date(System.currentTimeMillis() + expirationTime * 1000))
                     .compact();
         } catch (InvalidKeyException e) {
             e.printStackTrace();
@@ -82,9 +101,9 @@ public class JwtUtil {
     */
     public static String getRefreshToken(String userName){
         return Jwts.builder()
-                .signWith(Keys.hmacShaKeyFor(refreshKey))
-                .setSubject(userName)
-                .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION_REMEMBER_TIME * 1000))
+                .signWith(getRefreshKey())
+                .subject(userName)
+                .expiration(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION_REMEMBER_TIME * 1000))
                 .compact();
     }
 
@@ -151,11 +170,11 @@ public class JwtUtil {
     * @Date: 2021/11/27
     */
     private static Claims getTokenBody(String token){
-        return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
+        return Jwts.parser()
+                .verifyWith(getSigningKey())
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
     }
     
     /**
@@ -166,10 +185,10 @@ public class JwtUtil {
     * @Date: 2022/10/5
     */
     public static Claims getRefreshTokenBody(String refreshToken){
-        return Jwts.parserBuilder()
-                .setSigningKey(refreshKey)
+        return Jwts.parser()
+                .verifyWith(getRefreshKey())
                 .build()
-                .parseClaimsJws(refreshToken)
-                .getBody();
+                .parseSignedClaims(refreshToken)
+                .getPayload();
     }
 }
