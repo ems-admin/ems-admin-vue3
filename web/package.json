@@ -8,26 +8,25 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "axios": "^1.7.9",
+    "axios": "^1.12.2",
     "browserslist": "^4.21.9",
     "caniuse-lite": "^1.0.30001515",
-    "core-js": "^3.6.5",
-    "element-plus": "^2.9.2",
+    "core-js": "^3.46.0",
+    "element-plus": "^2.11.5",
     "eslint": "^8.22.0",
     "eslint-plugin-vue": "^9.7.0",
     "pinia": "^2.3.0",
     "pinia-plugin-persistedstate": "^4.2.0",
-    "vue": "^3.5.13",
+    "vue": "^3.5.22",
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
-    "@vue/cli-plugin-babel": "^5.0.8",
-    "@vue/cli-plugin-eslint": "^5.0.8",
+    "@vue/cli-plugin-babel": "^5.0.9",
+    "@vue/cli-plugin-eslint": "^5.0.9",
     "@vue/cli-service": "^5.0.8",
     "unplugin-auto-import": "^0.11.4",
-    "unplugin-vue-components": "^0.22.9",
-    "vue-template-compiler": "^2.7.13"
+    "unplugin-vue-components": "^0.22.9"
   },
   "eslintConfig": {
     "root": true,

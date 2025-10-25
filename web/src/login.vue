@@ -34,11 +34,11 @@
 </template>
 
 <script setup>
-import './assets/css/login.css'
-import {useStore} from "./store";
-import routers from "./router/routers";
-import {login, getVerifyCode} from "./api/login/login";
-import {errorMsg} from "./utils/message";
+import '@/assets/css/login.css'
+import {useStore} from "@/store";
+import routers from "@/router/routers";
+import {login, getVerifyCode} from "@/api/login/login";
+import {errorMsg} from "@/utils/message";
 import {ref, reactive, onMounted} from 'vue'
 
   const store = useStore()
