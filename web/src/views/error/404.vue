@@ -7,8 +7,8 @@
 </div>
 </template>
 <script setup>
-import routers from "../../router/routers";
-import '../../assets/css/404.css'
+import routers from "@/router/routers";
+import '@/assets/css/404.css'
 
 const back = () => {
   routers.back()

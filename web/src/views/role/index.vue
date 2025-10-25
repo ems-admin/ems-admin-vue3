@@ -28,9 +28,9 @@
 <script setup>
 import editRole from "./editRole";
 import authorizeRole from "./authorizeRole";
-import {getRoleList, delRole} from "../../api/role/sysRole";
-import {errorMsg, infoMsg, successMsg} from "../../utils/message";
-import {hasPer} from "../../utils/common";
+import {getRoleList, delRole} from "@/api/role/sysRole";
+import {errorMsg, infoMsg, successMsg} from "@/utils/message";
+import {hasPer} from "@/utils/common";
 import {onMounted, reactive, ref} from "vue";
 import {ElMessageBox} from "element-plus";
 

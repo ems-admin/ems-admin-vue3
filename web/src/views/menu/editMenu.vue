@@ -59,9 +59,9 @@
 </template>
 
 <script setup>
-import {getMenuTreeSelect, editMenu} from "../../api/menu/sysMenu";
-import {errorMsg, successMsg} from "../../utils/message";
-import {resetForm} from "../../utils/common";
+import {getMenuTreeSelect, editMenu} from "@/api/menu/sysMenu";
+import {errorMsg, successMsg} from "@/utils/message";
+import {resetForm} from "@/utils/common";
 import {computed, reactive, ref} from "vue";
 
 const props = defineProps({

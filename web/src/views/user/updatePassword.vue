@@ -21,10 +21,10 @@
 </template>
 
 <script setup>
-import {updatePwd} from "../../api/user/sysUser";
-import {errorMsg, successMsg} from "../../utils/message";
+import {updatePwd} from "@/api/user/sysUser";
+import {errorMsg, successMsg} from "@/utils/message";
 import {computed, ref, reactive} from "vue";
-import {resetForm} from "../../utils/common";
+import {resetForm} from "@/utils/common";
 const props = defineProps({
   dialogVisible: {
     type: Boolean,

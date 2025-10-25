@@ -26,10 +26,10 @@
 </template>
 
 <script setup>
-import {editUser} from "../../api/user/sysUser";
-import {getRoleList} from "../../api/role/sysRole";
-import {errorMsg, successMsg} from "../../utils/message";
-import {resetForm} from "../../utils/common";
+import {editUser} from "@/api/user/sysUser";
+import {getRoleList} from "@/api/role/sysRole";
+import {errorMsg, successMsg} from "@/utils/message";
+import {resetForm} from "@/utils/common";
 import {computed, reactive, ref} from "vue";
 
 const props = defineProps({

@@ -45,9 +45,9 @@
 </template>
 
 <script setup>
-import {getLogList} from "../../api/log/sysLog";
-import {errorMsg} from "../../utils/message";
-import Pagination from "../../components/Pagination";
+import {getLogList} from "@/api/log/sysLog";
+import {errorMsg} from "@/utils/message";
+import Pagination from "@/components/Pagination";
 import ErrorDetail from "./ErrorDetail";
 import {onMounted, reactive, ref} from "vue";
 

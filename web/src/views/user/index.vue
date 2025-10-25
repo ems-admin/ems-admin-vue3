@@ -36,11 +36,11 @@
 
 <script setup>
 import editUser from "./editUser";
-import Pagination from "../../components/Pagination";
-import {getUserList, delUser, enabledUser} from "../../api/user/sysUser";
-import {errorMsg, infoMsg, successMsg} from "../../utils/message";
-import {hasPer} from "../../utils/common";
-import {useStore} from "../../store";
+import Pagination from "@/components/Pagination";
+import {getUserList, delUser, enabledUser} from "@/api/user/sysUser";
+import {errorMsg, infoMsg, successMsg} from "@/utils/message";
+import {hasPer} from "@/utils/common";
+import {useStore} from "@/store";
 import {onMounted, reactive, ref} from "vue";
 import {ElMessageBox} from "element-plus";
 

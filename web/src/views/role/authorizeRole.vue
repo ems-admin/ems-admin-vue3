@@ -19,9 +19,9 @@
 </template>
 
 <script setup>
-import {getMenuTable} from "../../api/menu/sysMenu";
-import {getMenusByRoleId, authorizeRole} from "../../api/role/sysRole";
-import {errorMsg, successMsg} from "../../utils/message";
+import {getMenuTable} from "@/api/menu/sysMenu";
+import {getMenusByRoleId, authorizeRole} from "@/api/role/sysRole";
+import {errorMsg, successMsg} from "@/utils/message";
 import {computed, reactive, ref} from "vue";
 
 const props = defineProps({

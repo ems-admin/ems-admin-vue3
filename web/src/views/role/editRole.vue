@@ -24,10 +24,10 @@
 </template>
 
 <script setup>
-import {editRole} from "../../api/role/sysRole";
-import {errorMsg, successMsg} from "../../utils/message";
+import {editRole} from "@/api/role/sysRole";
+import {errorMsg, successMsg} from "@/utils/message";
 import {computed, reactive, ref} from "vue";
-import {resetForm} from "../../utils/common";
+import {resetForm} from "@/utils/common";
 
 const props = defineProps({
   dialogVisible: {

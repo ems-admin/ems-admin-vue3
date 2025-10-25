@@ -30,9 +30,9 @@
 </template>
 
 <script setup>
-import {getMenuTable, delMenu} from "../../api/menu/sysMenu";
-import {errorMsg, infoMsg, successMsg} from "../../utils/message";
-import {hasPer} from "../../utils/common";
+import {getMenuTable, delMenu} from "@/api/menu/sysMenu";
+import {errorMsg, infoMsg, successMsg} from "@/utils/message";
+import {hasPer} from "@/utils/common";
 import editMenu from "./editMenu";
 import {onMounted, reactive, ref} from "vue";
 import {ElMessageBox} from "element-plus";

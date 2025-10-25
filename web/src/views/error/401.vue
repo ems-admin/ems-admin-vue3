@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import routers from "../../router/routers";
+import routers from "@/router/routers";
 
 const back = () => {
   routers.back()
