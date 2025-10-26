@@ -15,7 +15,8 @@ import {useStore} from "@/store/index.js";
 import {getMenuTree, getPermission} from "@/api/menu/sysMenu.js";
 import {errorMsg} from "@/utils/message.js";
 import {computed, onMounted, ref} from "vue";
-import MenuTree from "@/components/MenuTree.vue"
+import MenuTree from "@/components/MenuTree.vue";
+import emsPath from "@/assets/image/ems.png";
 
 const store = useStore()
 
@@ -24,8 +25,6 @@ const emit = defineEmits(['update:width'])
 const menuList = ref([])
 
 const isCollapse = ref(false)
-
-const emsPath = ref(`src/assets/image/ems.png`)
 
 const defaultActive = computed(() => {
   return store.activeIndex
