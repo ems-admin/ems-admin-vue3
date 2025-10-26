@@ -5,7 +5,12 @@
       <el-image :src="emsPath" style="width: 40px;"></el-image>
     </div>
     <!--默认将首页放在第一位-->
-    <el-menu-item route="/home" index="首页" @click="openTab('首页', '/home')"><i class="iconfont icon-home"></i>首页</el-menu-item>
+    <el-menu-item route="/home" index="首页" @click="openTab('首页', '/home')">
+      <i class="iconfont icon-home"></i>
+      <template #title>
+        首页
+      </template>
+    </el-menu-item>
     <menu-tree :menu-data="menuList"></menu-tree>
   </el-menu>
 </template>

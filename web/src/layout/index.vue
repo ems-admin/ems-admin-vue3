@@ -1,7 +1,7 @@
 <template>
   <el-container>
-    <el-aside :width.sync="width">
-      <Aside :width.sync="width"></Aside>
+    <el-aside v-model:width="width">
+      <Aside v-model:width="width"></Aside>
     </el-aside>
     <el-container>
       <el-header>
