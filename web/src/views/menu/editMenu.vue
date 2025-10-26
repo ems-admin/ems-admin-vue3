@@ -63,6 +63,7 @@ import {getMenuTreeSelect, editMenu} from "@/api/menu/sysMenu.js";
 import {errorMsg, successMsg} from "@/utils/message.js";
 import {resetForm} from "@/utils/common.js";
 import {computed, reactive, ref} from "vue";
+import iconJson from '@/assets/iconfont/iconfont.json';
 
 const props = defineProps({
   dialogVisible: {
@@ -160,12 +161,13 @@ const submitMenu = () => {
 }
 
 const getIconList = () => {
-  const iconJson = require('@/assets/iconfont/iconfont.json')
+
   const iconClassList = JSON.parse(JSON.stringify(iconJson.glyphs))
   iconList.value = iconClassList.map(item => {
     item.font_class = 'iconfont icon-' + item.font_class
     return item
   })
+  console.log('图标列表', iconList.value)
 }
 
 const checkIcon = (value) => {
