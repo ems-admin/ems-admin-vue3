@@ -3,14 +3,14 @@
     <el-form class="form" :model="loginForm" :rules="rules" ref="loginRef">
       <h1>用 户 登 录</h1>
       <el-form-item prop="username">
-        <el-input type="text" v-model="loginForm.username" placeholder="请输入用户名">
+        <el-input type="text" v-model="loginForm.username" placeholder="请输入用户名" @keyup.enter="submitLogin(loginRef)">
           <template #prefix>
             <i class="iconfont icon-username"></i>
           </template>
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input type="password" v-model="loginForm.password" placeholder="请输入密码">
+        <el-input type="password" v-model="loginForm.password" placeholder="请输入密码" @keyup.enter="submitLogin(loginRef)">
           <template #prefix>
             <i class="iconfont icon-password"></i>
           </template>
@@ -18,7 +18,7 @@
       </el-form-item>
       <el-form-item prop="code">
         <div style="display: inline-flex;justify-content: space-between;width: 100%;">
-          <el-input type="text" v-model="loginForm.code" style="width: 170px;" placeholder="请输入验证码">
+          <el-input type="text" v-model="loginForm.code" style="width: 170px;" placeholder="请输入验证码" @keyup.enter="submitLogin(loginRef)">
             <template #prefix>
               <i class="iconfont icon-captcha"></i>
             </template>
