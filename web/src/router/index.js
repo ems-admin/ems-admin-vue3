@@ -15,7 +15,7 @@ router.beforeEach((to, from, next) => {
         //  在用户手动切换到根路由时，强制返回
         //  避免路由跳出当前主页面
         if (to.path === '/'){
-            router.go(-1)
+            next({path: '/login'})
         }
         //  如果重复登录
         if (to.path === '/login'){
